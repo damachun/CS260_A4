@@ -30,3 +30,15 @@
 *.exe
 *.out
 *.app
+
+# Directories
+cs260_4/.vs/
+cs260_4/Debug/
+cs260_4/Release/
+cs260_4/client/Debug/
+cs260_4/client/Release/
+
+#Files
+*.user
+*.filters
+*.ini
