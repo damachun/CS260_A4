@@ -16,6 +16,7 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 *******************************************************************/
 
 #include "globalhelpers.h"
+#include <fstream>
 
 static std::mutex _mutexprint; // couts are overlapping
 
@@ -55,6 +56,37 @@ STRINGCONTAINER stringtostringcont(std::string str, const std::string& delim)
 		// I STILL HAVE NO CLUE WHEN POS WILL NOT BE FOUND GG
 	}
 	return strcont;
+}
+
+std::string loadfile(const std::string& path)
+{
+	std::string toReturnStr = std::string();
+	std::ifstream iStream(path);
+
+	if (iStream.is_open())
+	{
+		std::string line;
+
+		while (std::getline(iStream, line))
+		{
+			toReturnStr.append(line);
+			toReturnStr.append("\n");
+		}
+		iStream.close();
+	}
+	else std::cout << "Unable to open " << path << std::endl;
+
+	return toReturnStr;
+}
+
+void printfile(const std::string& title, const std::string& text)
+{
+	std::ofstream oStream(title);
+	if (oStream.is_open())
+	{
+		oStream << text;
+		oStream.close();
+	}
 }
 
 globalException::globalException(const std::string& what) :

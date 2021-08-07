@@ -38,6 +38,9 @@ void print(const STRINGCONTAINER&);
 size_t stringcontsize(const STRINGCONTAINER&);
 STRINGCONTAINER stringtostringcont(std::string, const std::string& delim = "\n");
 
+std::string loadfile(const std::string&);
+void printfile(const std::string& title, const std::string& text);
+
 class globalException : public std::exception
 {
 	std::string _what;

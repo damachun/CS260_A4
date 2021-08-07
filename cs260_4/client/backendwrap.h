@@ -26,3 +26,6 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 #include "backend/wrappers/wrapWSADATA.h"
 #include "backend/wrappers/wrapAddrinfo.h"
 #include "backend/wrappers/wrapSOCKET.h"
+
+#include "backend/window/windows.h"
+#include "backend/graphics/renderer.h"
