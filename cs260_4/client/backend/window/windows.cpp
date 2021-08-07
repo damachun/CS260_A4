@@ -185,23 +185,23 @@ HWND MakeWindow(char* title, int x, int y, int width, int height, BYTE type, DWO
 
 window::window()
 {
-	hWnd = MakeWindow(const_cast<char*>("CS260 A4"), 0, 0, 800, 600, 0, 0);
-	if (hWnd == NULL) exit(1);
+	_hWnd = MakeWindow(const_cast<char*>("CS260 A4"), 0, 0, 800, 600, 0, 0);
+	if (_hWnd == NULL) exit(1);
 
 	// Create the OpenGL context
-	hDC = GetDC(hWnd);
-	hRC = wglCreateContext(hDC);
-	wglMakeCurrent(hDC, hRC);
+	_hDC = GetDC(_hWnd);
+	_hRC = wglCreateContext(_hDC);
+	wglMakeCurrent(_hDC, _hRC);
 
-	ShowWindow(hWnd, SW_SHOW);
+	ShowWindow(_hWnd, SW_SHOW);
 }
 
 window::~window()
 {
 	wglMakeCurrent(NULL, NULL);
-	ReleaseDC(hWnd, hDC);
-	wglDeleteContext(hRC);
-	DestroyWindow(hWnd);
+	ReleaseDC(_hWnd, _hDC);
+	wglDeleteContext(_hRC);
+	DestroyWindow(_hWnd);
 }
 
 const bool& window::updatecheck()
@@ -210,31 +210,26 @@ const bool& window::updatecheck()
 }
 void window::updateend()
 {
-	SwapBuffers(hDC);
+	SwapBuffers(_hDC);
 }
 void window::update()
 {
-	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+	while (PeekMessage(&_msg, nullptr, 0, 0, PM_REMOVE))
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		TranslateMessage(&_msg);
+		DispatchMessage(&_msg);
 	}
-}
-
-void window::setisrunning(const bool& isRunning)
-{
-	m_running = isRunning;
 }
 
 int window::getwindowwidth()
 {
 	RECT rect;
-	GetWindowRect(hWnd, &rect);
+	GetWindowRect(_hWnd, &rect);
 	return rect.right - rect.left;
 }
 int window::getwindowheight()
 {
 	RECT rect;
-	GetWindowRect(hWnd, &rect);
+	GetWindowRect(_hWnd, &rect);
 	return rect.bottom - rect.top;
 }

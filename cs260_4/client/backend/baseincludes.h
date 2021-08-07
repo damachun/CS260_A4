@@ -27,3 +27,15 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 #pragma comment(lib, "ws2_32.lib")  // link ws2_32.lib
 
 #include "globalhelpers.h"          // print, STRINGCONTAINER, THROW
+
+// graphics
+#define GLEW_STATIC
+#include <glew.h>
+
+// windows
+#include <glm.hpp>
+const glm::vec3 NULLVEC3 = glm::vec3(0.0f, 0.0f, 0.0f);
+const glm::vec2 NULLVEC2 = glm::vec2(0.0f, 0.0f);
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+//#include <simd/common.h>
