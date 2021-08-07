@@ -33,6 +33,8 @@ private:
 
 	wrapSOCKET _ws;
 
+	char ack = 0;
+
 public:
 	ClientsHandler( ClientsHandler& ) = delete;
 	ClientsHandler( ClientsHandler&& ) = delete;
@@ -43,6 +45,13 @@ public:
 	~ClientsHandler() = default;
 
 	bool init( int argc, char** argv );
+
+	int getplayerid()
+	{
+		return _playerid;
+	}
+
+	bool startable();
 
 	void sendto( size_t index, const std::string& text );
 	void sendall( const std::string& text );

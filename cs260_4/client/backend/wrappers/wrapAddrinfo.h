@@ -52,7 +52,7 @@ public:
 	sockaddr* getaddr()
 	{
 		return _rspinfo->ai_addr;
-	};
+	}
 
 	// for listenersocket
 	friend bool wrapSOCKET::trybind(const wrapAddrinfo&);

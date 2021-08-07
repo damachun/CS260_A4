@@ -47,6 +47,11 @@ bool ClientsHandler::init( int argc, char** argv )
 				if( _ws.trybind( info ) )
 				{
 					_playerid = i - 1;
+
+					char add = 1;
+					add <<= _playerid;
+
+					ack |= add;
 					break;
 				}
 			}
@@ -87,6 +92,21 @@ bool ClientsHandler::init( int argc, char** argv )
 	}
 
 	return true;
+}
+
+bool ClientsHandler::startable()
+{
+	if( ack == 15 )
+	{
+		return true;
+	}
+
+	if( ack == 15 )
+	{
+		return true;
+	}
+
+	return false;
 }
 
 void ClientsHandler::sendto( size_t index, const std::string& text )

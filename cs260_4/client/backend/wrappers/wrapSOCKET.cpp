@@ -67,16 +67,15 @@ void wrapSOCKET::exit()
 // special
 bool wrapSOCKET::sockrecv(sockaddr& _addr, std::string& string)
 {
-	char buffer[4096] = { '\0' };
-	bool collect = true;
-	size_t buffermax = 4095, offset = 0;
+	char buffer[256] = { '\0' };
+	static const size_t buffermax = 255;
 
 	//SecureZeroMemory(&_addr, sizeof(_addr));
-	int addresssize = sizeof(_addr);
+	static int addresssize = sizeof(_addr);
 
-	while (collect)
+	while (true)
 	{
-		int bytesrecv = recvfrom(_socket, buffer + offset, static_cast<int>(buffermax - offset), 0,
+		int bytesrecv = recvfrom(_socket, buffer, static_cast<int>(buffermax), 0,
 			&_addr, &addresssize);
 		switch (bytesrecv)
 		{
@@ -87,41 +86,16 @@ bool wrapSOCKET::sockrecv(sockaddr& _addr, std::string& string)
 			DBGPRINT({ "wrapSOCKET::sockrecv() succeeded\n\trecvfrom() done" });
 			return false;
 		default:
-			for (int i = 0; i < bytesrecv; ++i)
-			{
-				if (buffer[offset + i] == '\b')
-				{
-					if (offset > 0)
-					{
-						if (bytesrecv == 1)
-						{
-							--offset;
-							--bytesrecv;
-							break;
-						}
-						memcpy(buffer + offset + i - 1, buffer + offset + i + 1, bytesrecv);
-						--bytesrecv;
-					}
-					else break;
-				}
-			}
-
 			if (bytesrecv == 0)
-				continue;
-
-			offset += bytesrecv;
-			if (offset > buffermax)
 			{
-				DBGPRINT({ "wrapSOCKET::sockrecv() failed\n\tinput too long" });
+				DBGPRINT( { "wrapSOCKET::sockrecv() failed\n\tclient disconnected" } );
 				return false;
 			}
 
-			string = std::string(buffer);
-			if (string.find("\r\n\r\n") != std::string::npos)
-			{
-				collect = false; // only terminate when end is found
-				string.erase(string.find("\r\n\r\n"));
-			}
+			buffer[ bytesrecv ] = '\0';
+
+			string = std::string( buffer, bytesrecv );
+
 			break;
 		}
 	}
@@ -131,7 +105,6 @@ bool wrapSOCKET::sockrecv(sockaddr& _addr, std::string& string)
 bool wrapSOCKET::socksend(sockaddr& _addr, const std::string& string)
 {
 	std::string finalstring = string;
-	finalstring += "\r\n\r\n";
 
 	//SecureZeroMemory(&_addr, sizeof(_addr));
 	int addresssize = sizeof(_addr);
