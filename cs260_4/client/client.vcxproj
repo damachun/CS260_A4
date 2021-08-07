@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="backendwrap.h" />
     <ClInclude Include="backend\baseincludes.h" />
+    <ClInclude Include="backend\clientshandler.h" />
     <ClInclude Include="backend\globalhelpers.h" />
     <ClInclude Include="backend\gobackn.h" />
     <ClInclude Include="backend\graphics\renderer.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="game objects\paddle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="backend\clientshandler.cpp" />
     <ClCompile Include="backend\globalhelpers.cpp" />
     <ClCompile Include="backend\gobackn.cpp" />
     <ClCompile Include="backend\graphics\renderer.cpp" />

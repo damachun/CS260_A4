@@ -20,18 +20,27 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 #include "wrapAddrinfo.h"
 
 // ctor dtor
-wrapSOCKET::wrapSOCKET(const wrapAddrinfo& addinf): // listener
-	_socket{ socket(addinf._hints.ai_family,
-		addinf._hints.ai_socktype,
-		addinf._hints.ai_protocol) }
+bool wrapSOCKET::trybind(const wrapAddrinfo& addinf)
 {
-	if (_socket == INVALID_SOCKET)
-		THROW("wrapSOCKET() (listener) failed\n\tsocket() failed");
+	_socket = socket( addinf._hints.ai_family,
+					  addinf._hints.ai_socktype,
+					  addinf._hints.ai_protocol );
 
-	if (bind(_socket, addinf._rspinfo->ai_addr,
-		CAST_INT(addinf._rspinfo->ai_addrlen)) != NO_ERROR
-		|| _socket == INVALID_SOCKET)
-		THROW("wrapSOCKET() (listener) failed\n\tbind() failed");
+	if( _socket == INVALID_SOCKET )
+	{
+		std::cerr << "wrapSOCKET() (listener) failed\n\tsocket() failed" << std::endl;
+		return false;
+	}
+
+	if( bind( _socket, addinf._rspinfo->ai_addr,
+			  CAST_INT( addinf._rspinfo->ai_addrlen ) ) != NO_ERROR
+		|| _socket == INVALID_SOCKET )
+	{
+		std::cerr << "wrapSOCKET() (listener) failed\n\tbind() failed" << std::endl;
+		return false;
+	}
+
+	return true;
 
 	//char ip_addr[256];
 	//sockaddr_in* in = (sockaddr_in*)addinf._rspinfo->ai_addr;

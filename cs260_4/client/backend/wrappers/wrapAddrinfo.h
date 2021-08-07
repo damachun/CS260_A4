@@ -33,6 +33,8 @@ public:
 		_hints{ }, _rspinfo{ nullptr },
 		_portstring{ std::to_string(port) }
 	{
+		SecureZeroMemory( &_hints, sizeof( _hints ) );
+
 		_hints.ai_family = AF_INET;
 		_hints.ai_socktype = SOCK_DGRAM;
 		_hints.ai_protocol = IPPROTO_UDP;
@@ -47,5 +49,5 @@ public:
 	}
 
 	// for listenersocket
-	friend wrapSOCKET::wrapSOCKET(const wrapAddrinfo&);
+	friend bool wrapSOCKET::trybind(const wrapAddrinfo&);
 };
