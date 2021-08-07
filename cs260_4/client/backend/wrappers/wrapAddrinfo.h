@@ -29,9 +29,9 @@ private:
 	std::string _portstring; // service name/ port number as a string
 
 public:
-	wrapAddrinfo(const uint16_t& port) :
+	wrapAddrinfo(const char* host, const char* port) :
 		_hints{ }, _rspinfo{ nullptr },
-		_portstring{ std::to_string(port) }
+		_portstring{ port }
 	{
 		SecureZeroMemory( &_hints, sizeof( _hints ) );
 
@@ -39,14 +39,20 @@ public:
 		_hints.ai_socktype = SOCK_DGRAM;
 		_hints.ai_protocol = IPPROTO_UDP;
 
-		if (getaddrinfo(nullptr, _portstring.c_str(), &_hints, &_rspinfo) != NO_ERROR
+		if (getaddrinfo(host, _portstring.c_str(), &_hints, &_rspinfo) != NO_ERROR
 			|| _rspinfo == nullptr)
 			THROW("wrapAddrinfo() failed\n\tgetaddrinfo() failed");
 	}
+
 	~wrapAddrinfo()
 	{
 		freeaddrinfo(_rspinfo);
 	}
+
+	sockaddr* getaddr()
+	{
+		return _rspinfo->ai_addr;
+	};
 
 	// for listenersocket
 	friend bool wrapSOCKET::trybind(const wrapAddrinfo&);

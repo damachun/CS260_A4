@@ -16,14 +16,15 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 *******************************************************************/
 
 #pragma once
-#include "gobackn.h"
+#include "wrappers/wrapSOCKET.h"
 
 #define MAX_PLAYERS 4
+#define NO_PLAYER_ID -1
 
 class ClientsHandler
 {
 private:
-	int _playerid = -1;
+	int _playerid = NO_PLAYER_ID;
 
 	sockaddr _addrs[ MAX_PLAYERS ]{};
 
@@ -42,9 +43,9 @@ public:
 
 	bool init( int argc, char** argv );
 
-	void sendto( size_t index );
-	void sendall();
-	bool recvfrom( size_t index );
+	void sendto( size_t index, const std::string& text );
+	void sendall( const std::string& text );
+	bool recvfrom();
 	std::string retrieve( size_t index );
 
 	STRINGCONTAINER retrieveall();

@@ -39,7 +39,7 @@ public:
 
 	// special
 	bool sockrecv(sockaddr&, std::string&);
-	bool socksend(sockaddr&, const STRINGCONTAINER&);
+	bool socksend(sockaddr&, const std::string&);
 
 	SOCKET& getsock() { return _socket; }
 

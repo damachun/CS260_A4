@@ -128,11 +128,9 @@ bool wrapSOCKET::sockrecv(sockaddr& _addr, std::string& string)
 
 	return true;
 }
-bool wrapSOCKET::socksend(sockaddr& _addr, const STRINGCONTAINER& strings)
+bool wrapSOCKET::socksend(sockaddr& _addr, const std::string& string)
 {
-	std::string finalstring;
-	for (const std::string& string : strings)
-		finalstring += string;
+	std::string finalstring = string;
 	finalstring += "\r\n\r\n";
 
 	//SecureZeroMemory(&_addr, sizeof(_addr));
