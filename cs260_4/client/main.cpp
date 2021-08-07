@@ -20,19 +20,25 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 
 int main()
 {
-	std::cout << "Compiles" << std::endl;
-
-	window mainWindow;
+	window   mainWindow;
 	renderer mainRenderer(mainWindow);
-
-	while (mainWindow.updatecheck())
+	console  mainConsole;
+	
+	auto gameupdatefn = [&mainWindow, &mainRenderer]() -> void
 	{
-		mainWindow.update();
+		while (mainWindow.updatecheck())
+		{
+			mainWindow.update();
 
-		mainRenderer.update();
+			mainRenderer.update();
 
-		mainWindow.updateend();
-	}
+			mainWindow.updateend();
+		}
+	};
+	
+	std::thread gamethread{ gameupdatefn };
+	mainConsole.update(run);
+	gamethread.join();
 
 	return 0;
 }

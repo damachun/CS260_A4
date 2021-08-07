@@ -159,7 +159,6 @@
     <ClInclude Include="backend\baseincludes.h" />
     <ClInclude Include="backend\clientshandler.h" />
     <ClInclude Include="backend\globalhelpers.h" />
-    <ClInclude Include="backend\gobackn.h" />
     <ClInclude Include="backend\graphics\renderer.h" />
     <ClInclude Include="backend\producerconsumer.h" />
     <ClInclude Include="backend\producerconsumer.hpp" />
@@ -167,13 +166,13 @@
     <ClInclude Include="backend\wrappers\wrapAddrinfo.h" />
     <ClInclude Include="backend\wrappers\wrapSOCKET.h" />
     <ClInclude Include="backend\wrappers\wrapWSADATA.h" />
+    <ClInclude Include="backend\console.h" />
     <ClInclude Include="game objects\ball.h" />
     <ClInclude Include="game objects\paddle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="backend\clientshandler.cpp" />
     <ClCompile Include="backend\globalhelpers.cpp" />
-    <ClCompile Include="backend\gobackn.cpp" />
     <ClCompile Include="backend\graphics\renderer.cpp" />
     <ClCompile Include="backend\window\windows.cpp" />
     <ClCompile Include="backend\wrappers\wrapSOCKET.cpp" />

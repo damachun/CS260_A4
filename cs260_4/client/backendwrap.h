@@ -21,7 +21,6 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 #include "backend/baseincludes.h"
 
 #include "backend/producerconsumer.h"
-#include "backend/gobackn.h"
 
 #include "backend/wrappers/wrapWSADATA.h"
 #include "backend/wrappers/wrapAddrinfo.h"
@@ -29,3 +28,4 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 
 #include "backend/window/windows.h"
 #include "backend/graphics/renderer.h"
+#include "backend/console.h"
