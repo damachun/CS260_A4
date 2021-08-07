@@ -16,9 +16,7 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 /* End Header
 *******************************************************************/
 
-#include "../globalhelpers.h"
-#include <glew.h>
-#include <glm.hpp>
+#include "../baseincludes.h"
 
 /*
 	TO KEEP THINGS SIMPLE
@@ -42,14 +40,14 @@ class renderer
 	};
 	typedef GLint SHADERLOC;
 
-	window& _winref;
-	int  _width, _height;
-	shader _shader;
-	data   _rectdata, _circledata;
+	window&   _winref;
+	int       _width, _height;
+	shader    _shader;
+	data      _rectdata, _circledata;
 	SHADERLOC _mmat, _vmat, _pmat;
 
-	const glm::vec3 _bgcol, _objcol;
-	glm::mat4 _viewmat, _projmat, _circlemodelmat;
+	const glm::vec3        _bgcol, _objcol;
+	glm::mat4              _viewmat, _projmat, _circlemodelmat;
 	std::vector<glm::mat4> _modelmats;
 
 	shader loadShader(const std::string&, const std::string&) const;

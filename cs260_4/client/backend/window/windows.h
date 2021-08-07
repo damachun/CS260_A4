@@ -17,8 +17,7 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 *******************************************************************/
 
 #pragma once
-#include "../globalhelpers.h"
-#include <Windows.h>
+#include "../baseincludes.h"
 
 extern bool run;
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -27,31 +26,26 @@ HWND MakeWindow(char* title, int x, int y, int width, int height, BYTE type, DWO
 
 class window
 {
+	HDC   _hDC;				/* device context */
+	HGLRC _hRC;				/* opengl context */
+	HWND  _hWnd;			/* window */
+	MSG   _msg = { 0 };		/* message */
+
+	int         _pf;
+	WNDCLASS    _wc;
+
+	PIXELFORMATDESCRIPTOR _pfd{ 0 };
+	HINSTANCE             _hInstance;
+
 public:
 	const bool& updatecheck();
 	void update();
 	void updateend();
-
-	void setisrunning(const bool& isRunning);
 
 	int getwindowwidth();
 	int getwindowheight();
 
 	window();
 	~window();
-
-private:
-
-	HDC   hDC;				/* device context */
-	HGLRC hRC;				/* opengl context */
-	HWND  hWnd;				/* window */
-	MSG   msg = { 0 };		/* message */
-
-	int         pf;
-	WNDCLASS    wc;
-	PIXELFORMATDESCRIPTOR pfd{ 0 };
-	HINSTANCE hInstance;
-
-	bool m_running = true;
 };
 #define WINDOWS Window::Singleton()

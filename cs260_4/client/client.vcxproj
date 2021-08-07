@@ -167,6 +167,8 @@
     <ClInclude Include="backend\wrappers\wrapAddrinfo.h" />
     <ClInclude Include="backend\wrappers\wrapSOCKET.h" />
     <ClInclude Include="backend\wrappers\wrapWSADATA.h" />
+    <ClInclude Include="game objects\ball.h" />
+    <ClInclude Include="game objects\paddle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="backend\clientshandler.cpp" />
@@ -175,6 +177,7 @@
     <ClCompile Include="backend\graphics\renderer.cpp" />
     <ClCompile Include="backend\window\windows.cpp" />
     <ClCompile Include="backend\wrappers\wrapSOCKET.cpp" />
+    <ClCompile Include="game objects\paddle.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

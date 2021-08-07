@@ -16,13 +16,9 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 /* End Header
 *******************************************************************/
 
-#define GLEW_STATIC
 #include "renderer.h"
 #include "../window/windows.h"
-#include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
 
-const glm::vec3 NULLVEC3 = glm::vec3(0.0f, 0.0f, 0.0f);
 const unsigned int CIRCLEVTXCOUNT = 15;
 
 renderer::renderer(window& winref):
