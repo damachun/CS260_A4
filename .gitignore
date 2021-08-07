@@ -35,6 +35,7 @@
 cs260_4/.vs/
 cs260_4/Debug/
 cs260_4/Release/
+cs260_4/client/x64/
 cs260_4/client/x64/Debug/
 cs260_4/client/x64/Release/
 cs260_4/client/Debug/
@@ -44,3 +45,11 @@ cs260_4/client/Release/
 *.user
 *.filters
 *.ini
+*.tlog
+*.idb
+*.pdb
+*.iobj
+*.ipdb
+*.log
+*.pdb
+*.ilk

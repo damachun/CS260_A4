@@ -2,11 +2,12 @@
 *****************************************************************/
 /*!
 \file clientshandler.h
-\author Edwin Khoo, 1801843
+\author Chloe Lim Jia-Han, 440003018
+		Edwin Khoo Bing Shen, 390001918
 
-\par b.khoo\@digipen.edu
-\date 7/8/2021
-\brief 	ClientsHandler class declarations
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu
+\date 20/6/2021
+\brief 	the ClientsHandler class declaration
 
 Copyright (C) 2021 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the
