@@ -2,6 +2,7 @@
 
 bool ClientsHandler::init( int argc, char** argv )
 {
+	return true;
 }
 
 void ClientsHandler::sendto( size_t index )
@@ -22,6 +23,7 @@ void ClientsHandler::sendall()
 
 bool ClientsHandler::recvfrom( size_t index )
 {
+	return false;
 }
 
 std::string ClientsHandler::retrieve( size_t index )
@@ -30,6 +32,8 @@ std::string ClientsHandler::retrieve( size_t index )
 	{
 		return _inputs[ index ];
 	}
+
+	return "";
 }
 
 STRINGCONTAINER ClientsHandler::retrieveall()
