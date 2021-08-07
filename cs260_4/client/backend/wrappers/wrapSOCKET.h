@@ -3,8 +3,9 @@
 /*!
 \file wrapSOCKET.h
 \author Chloe Lim Jia-Han, 440003018
+		Edwin Khoo Bing Shen, 390001918
 
-\par j.lim\@digipen.edu
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu
 \date 18/7/2021
 \brief 	wrapSOCKET class declarations
 

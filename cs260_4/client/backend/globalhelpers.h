@@ -3,8 +3,9 @@
 /*!
 \file globalhelpers.h
 \author Chloe Lim Jia-Han, 440003018
+		Edwin Khoo Bing Shen, 390001918
 
-\par j.lim\@digipen.edu
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu
 \date 20/6/2021
 \brief 	the global print (and STRINGCONTAINER helper) function declaration(s)
 
@@ -37,6 +38,9 @@ void print(const STRINGCONTAINER&);
 
 size_t stringcontsize(const STRINGCONTAINER&);
 STRINGCONTAINER stringtostringcont(std::string, const std::string& delim = "\n");
+
+std::string loadfile(const std::string&);
+void printfile(const std::string& title, const std::string& text);
 
 class globalException : public std::exception
 {

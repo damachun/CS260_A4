@@ -3,8 +3,9 @@
 /*!
 \file backendwrap.h
 \author Chloe Lim Jia-Han, 440003018
+		Edwin Khoo Bing Shen, 390001918
 
-\par j.lim\@digipen.edu
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu
 \date 18/7/2021
 \brief 	backend includes
 
@@ -26,3 +27,6 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 #include "backend/wrappers/wrapWSADATA.h"
 #include "backend/wrappers/wrapAddrinfo.h"
 #include "backend/wrappers/wrapSOCKET.h"
+
+#include "backend/window/windows.h"
+#include "backend/graphics/renderer.h"
