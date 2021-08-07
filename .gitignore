@@ -53,3 +53,15 @@ cs260_4/client/Release/
 *.log
 *.pdb
 *.ilk
+cs260_4/client/x64/Debug/client.Build.CppClean.log
+cs260_4/client/x64/Debug/client.log
+cs260_4/client/x64/Debug/client.tlog/CL.command.1.tlog
+cs260_4/client/x64/Debug/client.tlog/CL.read.1.tlog
+cs260_4/client/x64/Debug/client.tlog/CL.write.1.tlog
+cs260_4/client/x64/Debug/client.tlog/link.command.1.tlog
+cs260_4/client/x64/Debug/client.tlog/link.read.1.tlog
+cs260_4/client/x64/Debug/client.tlog/link.write.1.tlog
+cs260_4/client/x64/Debug/vc142.idb
+cs260_4/client/x64/Debug/vc142.pdb
+cs260_4/x64/Debug/client.ilk
+cs260_4/x64/Debug/client.pdb
