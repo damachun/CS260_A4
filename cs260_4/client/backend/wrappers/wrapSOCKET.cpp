@@ -83,15 +83,10 @@ bool wrapSOCKET::sockrecv(sockaddr& _addr, std::string& string)
 			DBGPRINT({ "wrapSOCKET::sockrecv() failed\n\trecvfrom() failed" });
 			return false;
 		case 0:
-			DBGPRINT({ "wrapSOCKET::sockrecv() succeeded\n\trecvfrom() done" });
+			DBGPRINT( { "wrapSOCKET::sockrecv() failed\n\tclient disconnected" } );
+			//DBGPRINT({ "wrapSOCKET::sockrecv() succeeded\n\trecvfrom() done" });
 			return false;
 		default:
-			if (bytesrecv == 0)
-			{
-				DBGPRINT( { "wrapSOCKET::sockrecv() failed\n\tclient disconnected" } );
-				return false;
-			}
-
 			buffer[ bytesrecv ] = '\0';
 
 			string = std::string( buffer, bytesrecv );

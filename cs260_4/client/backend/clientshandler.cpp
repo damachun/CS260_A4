@@ -18,57 +18,20 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 
 #include "clientshandler.h"
 #include "wrappers/wrapAddrinfo.h"
+#include <chrono>
+#include <thread>
 
 bool ClientsHandler::init( int argc, char** argv )
 {
-	if( argc <= MAX_PLAYERS )
+	if( _playerid != NO_PLAYER_ID || argc <= MAX_PLAYERS )
 	{
 		return false;
 	}
 
-	if( _playerid == NO_PLAYER_ID )
-	{
-		for( int i = 1; i <= MAX_PLAYERS; ++i )
-		{
-			std::string port = argv[ i ];
-			auto found = port.find( ':' );
-
-			if( found == port.npos )
-			{
-				return false;
-			}
-
-			try
-			{
-				wrapAddrinfo info(
-					nullptr,
-					port.substr( found + 1 ).c_str() );
-
-				if( _ws.trybind( info ) )
-				{
-					_playerid = i - 1;
-
-					char add = 1;
-					add <<= _playerid;
-
-					ack |= add;
-					break;
-				}
-			}
-			catch( ... )
-			{
-				return false;
-			}
-		}
-	}
+	wrapSOCKET tempsock;
 
 	for( int i = 0; i < MAX_PLAYERS; ++i )
 	{
-		if( _playerid == i )
-		{
-			continue;
-		}
-
 		std::string hostport = argv[ i + 1 ];
 		auto found = hostport.find( ':' );
 
@@ -83,13 +46,32 @@ bool ClientsHandler::init( int argc, char** argv )
 				hostport.substr( 0, found ).c_str(),
 				hostport.substr( found + 1 ).c_str() );
 
+			wrapAddrinfo myinfo(
+				nullptr,
+				hostport.substr( found + 1 ).c_str() );
+
 			_addrs[ i ] = *info.getaddr();
+
+			if( _playerid == NO_PLAYER_ID &&
+				tempsock.trybind( info ) &&
+				_ws.trybind( myinfo ) )
+			{
+				_playerid = i;
+
+				unsigned char add = 1;
+
+				add <<= i;
+
+				ack |= add;
+			}
 		}
 		catch( ... )
 		{
 			return false;
 		}
 	}
+
+	chrecv.produce( this );
 
 	return true;
 }
@@ -101,12 +83,23 @@ bool ClientsHandler::startable()
 		return true;
 	}
 
-	if( ack == 15 )
-	{
-		return true;
-	}
+	std::string msg{ "connect" };
 
-	return false;
+	msg += static_cast<char>( _playerid );
+	sendall( msg );
+
+	std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
+
+	return ack == 15;
+}
+
+void ClientsHandler::acknowledge( size_t i )
+{
+	unsigned char add = 1;
+
+	add <<= i;
+
+	ack |= add;
 }
 
 void ClientsHandler::sendto( size_t index, const std::string& text )
@@ -129,7 +122,7 @@ void ClientsHandler::sendall( const std::string& text )
 	}
 }
 
-bool ClientsHandler::recvfrom()
+bool ClientsHandler::recvfrom( std::string* msg )
 {
 	sockaddr addr{};
 	std::string text;
@@ -137,6 +130,11 @@ bool ClientsHandler::recvfrom()
 	if( !_ws.sockrecv( addr, text ) )
 	{
 		return false;
+	}
+
+	if( msg )
+	{
+		*msg = text;
 	}
 
 	for( int i = 0; i < MAX_PLAYERS; ++i )
@@ -172,4 +170,43 @@ STRINGCONTAINER ClientsHandler::retrieveall()
 	}
 
 	return container;
+}
+
+bool ClientsHandler::waitrecv( ClientsHandler* handler )
+{
+	std::string text;
+	while( true )
+	{
+		if( handler->recvfrom( &text ) )
+		{
+			if( !std::strncmp( "quit", text.c_str(), 4 ) )
+			{
+				break;
+			}
+			else if( !std::strncmp( "connect", text.c_str(), 7 ) )
+			{
+				char c = text[ 7 ] - '0';
+
+				if( c >= 0 && c < MAX_PLAYERS )
+				{
+					handler->acknowledge( c );
+
+					std::string msg = "ack";
+					msg += static_cast<char>( handler->getplayerid() );
+					handler->sendto( c, msg );
+				}
+			}
+			else if( !std::strncmp( "ack", text.c_str(), 3 ) )
+			{
+				char c = text[ 3 ] - '0';
+
+				if( c >= 0 && c < MAX_PLAYERS)
+				{
+					handler->acknowledge( c );
+				}
+			}
+		}
+	}
+
+	return false;
 }
