@@ -31,6 +31,11 @@ public:
 	ClientsHandler( const ClientsHandler& ) = delete;
 	ClientsHandler( const ClientsHandler&& ) = delete;
 
+	ClientsHandler& operator=( ClientsHandler& ) = delete;
+	ClientsHandler& operator=( ClientsHandler&& ) = delete;
+	ClientsHandler& operator=( const ClientsHandler& ) = delete;
+	ClientsHandler& operator=( const ClientsHandler&& ) = delete;
+
 	ClientsHandler() = default;
 	~ClientsHandler() = default;
 
@@ -42,10 +47,9 @@ public:
 	}
 
 	bool startable();
-	void acknowledge( size_t i );
 
-	void sendto( size_t index, const std::string& text );
-	void sendall( const std::string& text );
+	void sendcmd( const std::string& text );
+	void sendmove( const std::string& text );
 	bool recvfrom( std::string* msg = nullptr );
 	std::string retrieve( size_t index );
 
@@ -63,6 +67,9 @@ private:
 	wrapSOCKET _ws;
 
 	unsigned char ack = 0;
+
+	void acknowledge( size_t i );
+	void sendto( size_t index, const std::string& text );
 
 	static void disconnect()
 	{

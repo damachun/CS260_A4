@@ -78,7 +78,7 @@ bool ClientsHandler::init( int argc, char** argv )
 
 bool ClientsHandler::startable()
 {
-	if( ack == 15 )
+	if( ack ^ 15 )
 	{
 		return true;
 	}
@@ -86,11 +86,11 @@ bool ClientsHandler::startable()
 	std::string msg{ "connect" };
 
 	msg += static_cast<char>( _playerid );
-	sendall( msg );
+	sendcmd( msg );
 
 	std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
 
-	return ack == 15;
+	return ack ^ 15;
 }
 
 void ClientsHandler::acknowledge( size_t i )
@@ -114,8 +114,18 @@ void ClientsHandler::sendto( size_t index, const std::string& text )
 	_ws.socksend( addr, text );
 }
 
-void ClientsHandler::sendall( const std::string& text )
+void ClientsHandler::sendcmd( const std::string& text )
 {
+	for( size_t i = 0; i < MAX_PLAYERS; ++i )
+	{
+		sendto( i, text );
+	}
+}
+
+void ClientsHandler::sendmove( const std::string& text )
+{
+	std::string hash{ "h:" };
+
 	for( size_t i = 0; i < MAX_PLAYERS; ++i )
 	{
 		sendto( i, text );
@@ -129,6 +139,20 @@ bool ClientsHandler::recvfrom( std::string* msg )
 
 	if( !_ws.sockrecv( addr, text ) )
 	{
+		for( size_t i = 0; i < MAX_PLAYERS; ++i )
+		{
+			if( !std::memcmp( &addr, &_addrs[ i ], sizeof( addr ) ) )
+			{
+				unsigned char remove = 1;
+
+				remove <<= i;
+
+				ack ^= remove;
+
+				break;
+			}
+		}
+
 		return false;
 	}
 
@@ -142,6 +166,8 @@ bool ClientsHandler::recvfrom( std::string* msg )
 		if( !std::memcmp( &addr, &_addrs[ i ], sizeof( addr ) ) )
 		{
 			_inputs[ i ] = text;
+
+			std::cout << "player " << i << " sent" << std::endl;
 
 			return true;
 		}
@@ -192,7 +218,7 @@ bool ClientsHandler::waitrecv( ClientsHandler* handler )
 					handler->acknowledge( c );
 
 					std::string msg = "ack";
-					msg += static_cast<char>( handler->getplayerid() );
+					msg += static_cast<char>( handler->_playerid );
 					handler->sendto( c, msg );
 				}
 			}
