@@ -39,6 +39,9 @@ renderer::renderer(window& winref):
 	glUniformMatrix4fv(_vmat, 1, GL_FALSE, glm::value_ptr(_viewmat));
 	glUniformMatrix4fv(_pmat, 1, GL_FALSE, glm::value_ptr(_projmat));
 	glUseProgram(0);
+
+	glClearColor(_bgcol.r, _bgcol.g, _bgcol.b, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 renderer::~renderer()
