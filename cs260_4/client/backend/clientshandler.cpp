@@ -205,7 +205,7 @@ bool ClientsHandler::waitrecv( ClientsHandler* handler )
 	{
 		if( handler->recvfrom( &text ) )
 		{
-			if( !std::strncmp( "quit", text.c_str(), 4 ) )
+			if( text[ 0 ] == '1' )
 			{
 				break;
 			}

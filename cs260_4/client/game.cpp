@@ -175,13 +175,13 @@ void game::end()
 
 void game::updateplayers_gamekill()
 {
-	_clienthandler.sendall("1"); // for game ended
+	_clienthandler.sendcmd("1"); // for game ended
 }
 void game::updateplayers(const bool& scoreupdate, const bool& ballupdate)
 {
 	packetdata currpacket(scoreupdate, ballupdate,
 		_players[0]._paddle.getpos(), _ballobj.getpos(), _ballobj.getvel());
-	_clienthandler.sendall(currpacket);
+	_clienthandler.sendmove(currpacket);
 }
 
 bool game::processinput()
