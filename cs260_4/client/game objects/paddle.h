@@ -37,7 +37,7 @@ public:
 	void movepos(const glm::vec2& step)
 	{
 		_pos += step;
-		_pos = glm::clamp(_pos, glm::vec2(-0.5f, 0.0f), glm::vec2(0.5f, 0.0f));
+		_pos = glm::clamp(_pos, glm::vec2(-400.0f, -400.0f), glm::vec2(400.0f, 400.0f));
 	}
 
 	void setpos(const glm::vec2& pos)

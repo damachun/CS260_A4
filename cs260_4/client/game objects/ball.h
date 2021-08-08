@@ -54,7 +54,7 @@ public:
 
 	void move(const float& dt)
 	{
-		_pos += _vel * dt;
+		_pos += _vel * dt * _speed;
 	}
 
 	bool checkfront(const glm::vec2& pos, const glm::vec2& nrm)

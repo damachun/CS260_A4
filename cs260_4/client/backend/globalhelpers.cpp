@@ -25,7 +25,7 @@ CLOCKTIME gettime()
 }
 float deltatime(const CLOCKTIME& start, const CLOCKTIME& end)
 {
-	return std::chrono::duration<float, std::milli>(end - start).count();
+	return std::chrono::duration<float, std::deci>(end - start).count();
 }
 
 static std::mutex _mutexprint; // couts are overlapping

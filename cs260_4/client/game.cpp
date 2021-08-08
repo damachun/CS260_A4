@@ -17,7 +17,6 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 *******************************************************************/
 
 #include "game.h"
-#include <Windows.h>
 
 game::packetdata::packetdata(std::string string):
 	_gamekill{ string[0] == '1' }, 
@@ -65,7 +64,7 @@ game::packetdata::packetdata(std::string string):
 game::game(ClientsHandler& clienthandler):
 	_clienthandler{ clienthandler },
 	_gamestate{ gamestate::WAITING }, 
-	_currid{ 0 }, _ballobj{ { 0.0f, 0.0f }, 50.0f, 25.0f, { 0.0f, 0.0f } }, _players{ },
+	_currid{ 0 }, _ballobj{ { 0.0f, 0.0f }, 50.0f, 15.0f, { 0.0f, 0.0f } }, _players{ },
 	_gamedone{ false }
 {}
 
@@ -76,21 +75,19 @@ void game::init()
 
 	_currid = _clienthandler.getplayerid();
 
-	const glm::mat4 rotate{ glm::rotate(glm::mat4(1.0f), glm::half_pi<float>(), glm::vec3(0.0f, 0.0f, 1.0f)) };
-	glm::vec2 currpos{ 0.0f, -375.0f }, currnormal{ 0.0f, 1.0f }, currsize{ 200.0f, 50.0f };
+	glm::vec2 positions[4] = { {0.0f, -375.0f}, {375.0f, 0.0f}, {0.0f, 375.0f}, {-375.0f, 0.0f} };
+	glm::vec2 normals[4] = { {0.0f, 1.0f}, {-1.0f, 0.0f}, {0.0f, -1.0f}, {1.0f, 0.0f} };
+	glm::vec2 sizes[4] = { {200.0f, 50.0f}, {50.0f, 200.0f}, {200.0f, 50.0f}, {50.0f, 200.0f} };
 
 	for (int i = 0; i < 4; ++i)
 	{
 		_players[i]._playerid = (i + _currid) % 4;
 		_players[i]._score = 0;
 		_players[i]._pos = static_cast<playerpos>(i);
-		_players[i]._paddle = paddle(currpos, currnormal, currsize);
-
-		currpos = glm::vec2(rotate * glm::vec4(currpos.x, currpos.y, 0.0f, 1.0f));
-		currnormal = glm::vec2(rotate * glm::vec4(currnormal.x, currnormal.y, 0.0f, 0.0f));
-		currsize = glm::vec2(rotate * glm::vec4(currsize.x, currsize.y, 0.0f, 0.0f));
+		_players[i]._paddle = paddle(positions[i], normals[i], sizes[i]);
 	}
 
+	const glm::mat4 rotate{ glm::rotate(glm::mat4(1.0f), glm::half_pi<float>(), glm::vec3(0.0f, 0.0f, 1.0f)) };
 	glm::vec4 ballvel{ 0.25f, -0.8f, 0.0f, 0.0f };
 	ballvel = glm::normalize(ballvel);
 	for (int i = 0; i < _currid; ++i)
@@ -203,7 +200,7 @@ bool game::processinput()
 	// RETURN TRUE
 
 	bool triggered = false;
-	const glm::vec2 step{ 0.05f, 0.0f };
+	const glm::vec2 step{ 10.0f, 0.0f };
 
 	if( GetKeyState( VK_LCONTROL ) & 0x8000 )
 	{
@@ -221,7 +218,7 @@ bool game::processinput()
 }
 bool game::balledge()
 {
-	if (_ballobj.checkfront({ 0.0f, -400.0f }, { 0.0f, 1.0f }))
+	if (!_ballobj.checkfront({ 0.0f, -400.0f }, { 0.0f, 1.0f }))
 	{
 		_ballobj.setpos({0.0f, 0.0f});
 		return true;
