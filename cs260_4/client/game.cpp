@@ -99,6 +99,8 @@ void game::init()
 	print({ "You control the paddle at the bottom\n",
 		"LEFT CONTROL and RIGHT CONTROL keys to move\n",
 		"First to 3 wins\nGood luck!" });
+
+	updateplayers( true, true );
 }
 bool game::update(const bool& getinput)
 {
@@ -124,28 +126,34 @@ bool game::update(const bool& getinput)
 	{
 		for (int i = 1; i < 4; ++i)
 		{
-			packetdata currpacket{ _clienthandler.retrieve(_players[i]._playerid) };
-			if (currpacket._gamekill)
+			try
 			{
-				gameend = true;
-				_gamedone = true;
-			}
-			glm::vec4 pos{ currpacket._playerp.x, currpacket._playerp.y, 0.0f, 1.0f };
-			_players[i]._paddle.setpos(glm::vec2(rotation[i] * pos));
-			if (currpacket._ballupdate && !collision) // only update ball upon first collision
-			{
-				if (currpacket._scoreupdate)
+				packetdata currpacket{ _clienthandler.retrieve( _players[ i ]._playerid ) };
+				if( currpacket._gamekill )
 				{
-					for (int j = 0; j < 4; ++j)
-						if (i != j) ++_players[j]._score;
-					print({ "Your current score is: ", std::to_string(_players[0]._score) });
+					gameend = true;
+					_gamedone = true;
 				}
+				glm::vec4 pos{ currpacket._playerp.x, currpacket._playerp.y, 0.0f, 1.0f };
+				_players[ i ]._paddle.setpos( glm::vec2( rotation[ i ] * pos ) );
+				if( currpacket._ballupdate && !collision ) // only update ball upon first collision
+				{
+					if( currpacket._scoreupdate )
+					{
+						for( int j = 0; j < 4; ++j )
+							if( i != j ) ++_players[ j ]._score;
+						print( { "Your current score is: ", std::to_string( _players[ 0 ]._score ) } );
+					}
 
-				pos = glm::vec4{ currpacket._ballp.x, currpacket._ballp.y, 0.0f, 1.0f };
-				glm::vec4 vel{ currpacket._ballv.x, currpacket._ballv.y, 0.0f, 0.0f };
-				_ballobj.setpos(glm::vec2(rotation[i] * pos));
-				_ballobj.setvel(glm::vec2(rotation[i] * vel));
-				collision = true;
+					pos = glm::vec4{ currpacket._ballp.x, currpacket._ballp.y, 0.0f, 1.0f };
+					glm::vec4 vel{ currpacket._ballv.x, currpacket._ballv.y, 0.0f, 0.0f };
+					_ballobj.setpos( glm::vec2( rotation[ i ] * pos ) );
+					_ballobj.setvel( glm::vec2( rotation[ i ] * vel ) );
+					collision = true;
+				}
+			}
+			catch( ... )
+			{
 			}
 		}
 	}

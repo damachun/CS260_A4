@@ -93,6 +93,7 @@ bool wrapSOCKET::sockrecv(sockaddr& _addr, std::string& string)
 			buffer[ bytesrecv ] = '\0';
 
 			string = std::string( buffer, bytesrecv );
+			DBGPRINT( { string } );
 
 			//break;
 			return true;

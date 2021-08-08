@@ -49,8 +49,8 @@ void assignment::thread_gameloop()
 		_window.update();
 
 		{
+			_updategamedata = _clienthandler.isupdated();
 			gameend = _game.update(_updategamedata);
-			_updategamedata = false;
 		}
 		_game.render(_renderer);
 
@@ -64,8 +64,8 @@ void assignment::thread_console()
 }
 void assignment::thread_sockrecvfrom()
 {
-	while (run)
-	{
-		_updategamedata = _clienthandler.recvfrom();
-	}
+	//while (run)
+	//{
+	//	_updategamedata = _clienthandler.recvfrom();
+	//}
 }

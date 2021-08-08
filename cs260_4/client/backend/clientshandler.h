@@ -55,6 +55,8 @@ public:
 
 	STRINGCONTAINER retrieveall();
 
+	bool isupdated();
+
 	static bool waitrecv( ClientsHandler* handler );
 
 private:
@@ -69,6 +71,7 @@ private:
 
 	unsigned char _cnnct = 0;
 	unsigned char _lshv = 0;
+	unsigned char _updated = 0;
 	unsigned char _plyrc = 0;
 
 	void acknowledge( size_t i );

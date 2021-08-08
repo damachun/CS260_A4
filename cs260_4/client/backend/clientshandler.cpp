@@ -277,8 +277,14 @@ bool ClientsHandler::recvfrom( std::string* msg )
 			{
 				std::memcpy( &_hashvalue[ i ], &text[ 2 ], 4 );
 
+				unsigned char add = 1;
+
+				add <<= i;
+
+				_lshv |= add;
+
 				break;
-				return true;
+				//return true;
 			}
 			else if( !std::memcmp( "m:", text.c_str(), 2 ) )
 			{
@@ -287,6 +293,12 @@ bool ClientsHandler::recvfrom( std::string* msg )
 				if( _hashvalue[ i ] ^ hashfn( text ) )
 				{
 					_inputs[ i ] = text;
+
+					unsigned char add = 1;
+
+					add <<= i;
+
+					_updated |= add;
 
 					return true;
 				}
@@ -317,6 +329,17 @@ STRINGCONTAINER ClientsHandler::retrieveall()
 	}
 
 	return container;
+}
+
+bool ClientsHandler::isupdated()
+{
+	if( _updated == 15 )
+	{
+		_updated = _plyrc;
+		return true;
+	}
+
+	return false;
 }
 
 bool ClientsHandler::waitrecv( ClientsHandler* handler )
