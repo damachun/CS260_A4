@@ -64,7 +64,8 @@ game::packetdata::packetdata(std::string string):
 game::game(ClientsHandler& clienthandler):
 	_clienthandler{ clienthandler },
 	_gamestate{ gamestate::WAITING }, 
-	_currid{ 0 }, _ballobj{ { 0.0f, 0.0f }, 0.1f, 0.25f, { 0.0f, 0.0f } }, _players{ }
+	_currid{ 0 }, _ballobj{ { 0.0f, 0.0f }, 0.1f, 0.25f, { 0.0f, 0.0f } }, _players{ },
+	_gamedone{ false }
 {}
 
 void game::init()
@@ -93,13 +94,15 @@ void game::init()
 		ballvel = rotate * ballvel;
 	_ballobj.setvel(glm::vec2(ballvel.x, ballvel.y));
 
+	_gamestate = gamestate::INPROGRESS;
+
 	print({ "You control the paddle at the bottom\n",
 		"Left and Right arrow keys to move\n", // ????????????
 		"First to 3 wins\nGood luck!" });
 }
-void game::update()
+bool game::update(const bool& getinput)
 {
-	const glm::mat4 rotation[4] =
+	static const glm::mat4 rotation[4] =
 	{
 		glm::mat4(1.0f),
 		glm::rotate(glm::mat4(1.0f), glm::half_pi<float>(), glm::vec3(0.0f, 0.0f, 1.0f)),
@@ -107,25 +110,25 @@ void game::update()
 		glm::rotate(glm::mat4(1.0f), glm::three_over_two_pi<float>(), glm::vec3(0.0f, 0.0f, 1.0f))
 	};
 
-	CLOCKTIME startt = gettime();
+	static CLOCKTIME startt = gettime();
 
-	while (run)
+	if (_players[0]._score >= 3)
 	{
-		if (_players[0]._score >= 3)
-		{
-			updateplayers_gamekill();
-			break;
-		}
+		updateplayers_gamekill();
+		return true;
+	}
 
-		bool collision = false, localcollision = false, gameend = false;
+	bool collision = false, localcollision = false, gameend = false;
 
+	if (getinput)
+	{
 		for (int i = 1; i < 4; ++i)
 		{
 			packetdata currpacket{ _clienthandler.retrieve(_players[i]._playerid) };
 			if (currpacket._gamekill)
 			{
 				gameend = true;
-				break;
+				_gamedone = true;
 			}
 			glm::vec4 pos{ currpacket._playerp.x, currpacket._playerp.y, 0.0f, 1.0f };
 			_players[i]._paddle.setpos(glm::vec2(rotation[i] * pos));
@@ -145,10 +148,10 @@ void game::update()
 				collision = true;
 			}
 		}
-		
-		if (gameend)
-			break;
+	}
 
+	if (!gameend)
+	{
 		bool toupdate = processinput(); // NOT IMPLEMENTED YET
 		if (!collision)
 			localcollision = _players[0]._paddle.collideball(_ballobj);
@@ -159,14 +162,20 @@ void game::update()
 
 		bool scoreupdate = balledge();
 
-		if (toupdate || scoreupdate || localcollision) 
+		if (toupdate || scoreupdate || localcollision)
 			updateplayers(scoreupdate, localcollision || scoreupdate);
-	}
 
-	if (_players[0]._score >= 3)
-		print({ "Congratulations!\nYou won!" });
+		return false;
+	}
 	else
-		print({ "Better luck next time!" });
+	{
+		if (_players[0]._score >= 3)
+			print({ "Congratulations!\nYou won!" });
+		else
+			print({ "Better luck next time!" });
+
+		return true;
+	}
 }
 void game::end()
 {
@@ -200,4 +209,14 @@ bool game::balledge()
 		return true;
 	}
 	return false;
+}
+
+void game::render(renderer& render)
+{
+	if (_gamestate == gamestate::WAITING) return;
+
+	render.clearModels();
+	render.editircleMat(_ballobj.getmodelmat());
+	for (const player& curr : _players)
+		render.addModelMat(curr._paddle.getmodelmat());
 }

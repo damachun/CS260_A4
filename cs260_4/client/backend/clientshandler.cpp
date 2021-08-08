@@ -18,8 +18,60 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 
 #include "clientshandler.h"
 #include "wrappers/wrapAddrinfo.h"
-#include <chrono>
-#include <thread>
+#include "globalhelpers.h"
+
+ClientsHandler::ClientsHandler(int argc, char** argv)
+{
+	if (_playerid != NO_PLAYER_ID || argc <= MAX_PLAYERS)
+	{
+		THROW("ClientsHandler() failed\n\tToo little players or Client is messed up");
+	}
+
+	wrapSOCKET tempsock;
+
+	for (int i = 0; i < MAX_PLAYERS; ++i)
+	{
+		std::string hostport = argv[i + 1];
+		auto found = hostport.find(':');
+
+		if (found == hostport.npos)
+		{
+			THROW("ClientsHandler() failed\n\tNO HOSTPORT");
+		}
+
+		try
+		{
+			wrapAddrinfo info(
+				hostport.substr(0, found).c_str(),
+				hostport.substr(found + 1).c_str());
+
+			wrapAddrinfo myinfo(
+				nullptr,
+				hostport.substr(found + 1).c_str());
+
+			_addrs[i] = *info.getaddr();
+
+			if (_playerid == NO_PLAYER_ID &&
+				tempsock.trybind(info) &&
+				_ws.trybind(myinfo))
+			{
+				_playerid = i;
+
+				unsigned char add = 1;
+
+				add <<= i;
+
+				ack |= add;
+			}
+		}
+		catch (...)
+		{
+			THROW("ClientsHandler() failed\n\tINIT FAILED");
+		}
+	}
+
+	chrecv.produce(this);
+}
 
 bool ClientsHandler::init( int argc, char** argv )
 {

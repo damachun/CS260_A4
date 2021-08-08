@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="assignment.h" />
     <ClInclude Include="backendwrap.h" />
     <ClInclude Include="backend\baseincludes.h" />
     <ClInclude Include="backend\clientshandler.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="game.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="assignment.cpp" />
     <ClCompile Include="backend\clientshandler.cpp" />
     <ClCompile Include="backend\globalhelpers.cpp" />
     <ClCompile Include="backend\graphics\renderer.cpp" />

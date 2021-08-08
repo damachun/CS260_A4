@@ -36,7 +36,7 @@ public:
 	ClientsHandler& operator=( const ClientsHandler& ) = delete;
 	ClientsHandler& operator=( const ClientsHandler&& ) = delete;
 
-	ClientsHandler() = default;
+	ClientsHandler(int argc, char** argv);
 	~ClientsHandler() = default;
 
 	bool init( int argc, char** argv );

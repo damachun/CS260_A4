@@ -16,29 +16,27 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 /* End Header
 *******************************************************************/
 
-#include "backendwrap.h"
+#include "assignment.h"
 
-int main()
+int main(int argc, char** argv)
 {
-	window   mainWindow;
-	renderer mainRenderer(mainWindow);
-	console  mainConsole;
-	
-	auto gameupdatefn = [&mainWindow, &mainRenderer]() -> void
+	try
 	{
-		while (mainWindow.updatecheck())
-		{
-			mainWindow.update();
-
-			mainRenderer.update();
-
-			mainWindow.updateend();
-		}
-	};
-	
-	std::thread gamethread{ gameupdatefn };
-	mainConsole.update(run);
-	gamethread.join();
+		assignment cs260_a4{ argc, argv };
+		cs260_a4.update();
+	}
+	catch (const globalException& controlled)
+	{
+		print({ "Controlled Exception Thrown\n", controlled.what() });
+	}
+	catch (const std::exception& external)
+	{
+		print({ "External Exception Thrown\n", external.what() });
+	}
+	catch (...)
+	{
+		print({ "Something was thrown\n", "i have no idea what happened here" });
+	}
 
 	return 0;
 }
