@@ -177,6 +177,11 @@ void ClientsHandler::sendto( size_t index, const std::string& text )
 
 void ClientsHandler::sendcmd( const std::string& text )
 {
+	if( !_plyrc )
+	{
+		return;
+	}
+
 	for( size_t i = 0; i < MAX_PLAYERS; ++i )
 	{
 		sendto( i, text );
@@ -185,6 +190,11 @@ void ClientsHandler::sendcmd( const std::string& text )
 
 bool ClientsHandler::sendmove( const std::string& text )
 {
+	if( !_plyrc )
+	{
+		return false;
+	}
+
 	std::string hash{ "h:" };
 
 	{
@@ -231,6 +241,11 @@ bool ClientsHandler::sendmove( const std::string& text )
 
 bool ClientsHandler::recvfrom( std::string* msg )
 {
+	if( !_plyrc )
+	{
+		return false;
+	}
+
 	sockaddr addr{};
 	std::string text;
 
@@ -342,6 +357,11 @@ bool ClientsHandler::isupdated()
 	return false;
 }
 
+bool ClientsHandler::ended()
+{
+	return !_plyrc;
+}
+
 bool ClientsHandler::waitrecv( ClientsHandler* handler )
 {
 	std::string text;
@@ -354,6 +374,7 @@ bool ClientsHandler::waitrecv( ClientsHandler* handler )
 			//std::cout << "received\n" << text << std::endl;
 			if( text[ 0 ] == '1' )
 			{
+				handler->_plyrc = 0;
 				break;
 			}
 			else if( !std::strncmp( "connect", text.c_str(), 7 ) )

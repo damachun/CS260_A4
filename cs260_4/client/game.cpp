@@ -101,6 +101,7 @@ void game::init()
 		"First to 3 wins\nGood luck!" });
 
 	updateplayers( true, true );
+	//updateplayers_gamekill();
 }
 bool game::update(const bool& getinput)
 {
@@ -115,6 +116,12 @@ bool game::update(const bool& getinput)
 	static CLOCKTIME startt = gettime();
 
 	if (_players[0]._score >= 3)
+	{
+		updateplayers_gamekill();
+		return true;
+	}
+
+	if (_clienthandler.ended())
 	{
 		updateplayers_gamekill();
 		return true;
@@ -182,6 +189,7 @@ bool game::update(const bool& getinput)
 		else
 			print({ "Better luck next time!" });
 
+		updateplayers_gamekill();
 		return true;
 	}
 }

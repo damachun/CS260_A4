@@ -24,7 +24,7 @@ assignment::assignment(int argc, char** argv):
 	_updategamedata{ false }, _game{ _clienthandler },
 	_threads{ }
 {
-	_threads.push_back(std::thread(&assignment::thread_gameloop, this));
+	//_threads.push_back(std::thread(&assignment::thread_gameloop, this));
 	_threads.push_back(std::thread(&assignment::thread_console, this));
 	_threads.push_back(std::thread(&assignment::thread_sockrecvfrom, this));
 }
@@ -36,7 +36,8 @@ assignment::~assignment()
 
 void assignment::update()
 {
-	while (run);
+	//while (run);
+	thread_gameloop();
 }
 
 void assignment::thread_gameloop()
@@ -60,7 +61,7 @@ void assignment::thread_gameloop()
 }
 void assignment::thread_console()
 {
-	_console.update(run);
+	//_console.update(run);
 }
 void assignment::thread_sockrecvfrom()
 {

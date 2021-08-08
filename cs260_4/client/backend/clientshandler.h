@@ -56,6 +56,7 @@ public:
 	STRINGCONTAINER retrieveall();
 
 	bool isupdated();
+	bool ended();
 
 	static bool waitrecv( ClientsHandler* handler );
 
