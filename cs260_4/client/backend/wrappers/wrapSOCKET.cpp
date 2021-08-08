@@ -26,8 +26,6 @@ bool wrapSOCKET::trybind(const wrapAddrinfo& addinf)
 					  addinf._hints.ai_socktype,
 					  addinf._hints.ai_protocol );
 
-	addinf.printout();
-
 	if( _socket == INVALID_SOCKET )
 	{
 		std::cerr << "wrapSOCKET() (listener) failed\n\tsocket() failed" << std::endl;
@@ -43,14 +41,6 @@ bool wrapSOCKET::trybind(const wrapAddrinfo& addinf)
 	}
 
 	return true;
-
-	//char ip_addr[256];
-	//sockaddr_in* in = (sockaddr_in*)addinf._rspinfo->ai_addr;
-	//inet_ntop(AF_INET, &(in->sin_addr), ip_addr, 256);
-	//
-	//print({ "IP address = " + std::string(ip_addr) });
-	//if (listen(_socket, SOMAXCONN) != NO_ERROR)
-	//	THROW("wrapSOCKET() (listener) failed\n\tlisten() failed");
 }
 wrapSOCKET::~wrapSOCKET()
 {
@@ -89,7 +79,6 @@ bool wrapSOCKET::sockrecv(sockaddr& _addr, std::string& string)
 			//DBGPRINT({ "wrapSOCKET::sockrecv() succeeded\n\trecvfrom() done" });
 			return false;
 		default:
-			DBGPRINT( { "wrapSOCKET::sockrecv() suceed\n\tclient send something" } );
 			buffer[ bytesrecv ] = '\0';
 
 			string = std::string( buffer, bytesrecv );

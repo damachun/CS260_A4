@@ -63,13 +63,9 @@ ClientsHandler::ClientsHandler(int argc, char** argv)
 				{
 					_playerid = i;
 
-					std::cout << "player id: " << _playerid << std::endl;
-
 					_plyrc = 1;
 					_plyrc <<= i;
 					_cnnct |= _plyrc;
-
-					//std::cout << "initial connect " << (int)_cnnct << std::endl;
 				}
 			}
 		}
@@ -80,60 +76,8 @@ ClientsHandler::ClientsHandler(int argc, char** argv)
 	}
 
 	chrecv.produce(this);
+	chsend.produce(this);
 }
-
-//bool ClientsHandler::init( int argc, char** argv )
-//{
-//	if( _playerid != NO_PLAYER_ID || argc <= MAX_PLAYERS )
-//	{
-//		return false;
-//	}
-//
-//	wrapSOCKET tempsock;
-//
-//	for( int i = 0; i < MAX_PLAYERS; ++i )
-//	{
-//		std::string hostport = argv[ i + 1 ];
-//		auto found = hostport.find( ':' );
-//
-//		if( found == hostport.npos )
-//		{
-//			return false;
-//		}
-//
-//		try
-//		{
-//			wrapAddrinfo info(
-//				hostport.substr( 0, found ).c_str(),
-//				hostport.substr( found + 1 ).c_str() );
-//
-//			wrapAddrinfo myinfo(
-//				nullptr,
-//				hostport.substr( found + 1 ).c_str() );
-//
-//			_addrs[ i ] = *info.getaddr();
-//
-//			if( _playerid == NO_PLAYER_ID &&
-//				tempsock.trybind( info ) &&
-//				_ws.trybind( myinfo ) )
-//			{
-//				_playerid = i;
-//
-//				_plyrc = 1;
-//				_plyrc <<= i;
-//				_cnnct |= _plyrc;
-//			}
-//		}
-//		catch( ... )
-//		{
-//			return false;
-//		}
-//	}
-//
-//	chrecv.produce( this );
-//
-//	return true;
-//}
 
 bool ClientsHandler::startable()
 {
@@ -154,8 +98,6 @@ bool ClientsHandler::startable()
 
 void ClientsHandler::acknowledge( size_t i )
 {
-	//std::cout << "ack came in: " << i << std::endl;
-
 	unsigned char add = 1;
 
 	add <<= i;
@@ -195,46 +137,8 @@ bool ClientsHandler::sendmove( const std::string& text )
 		return false;
 	}
 
-	std::string hash{ "h:" };
-
-	{
-		char cstr[ 4 ]{ 0 };
-		unsigned uh = hashfn( text );
-
-		std::memcpy( cstr, &uh, 4 );
-
-		hash += std::string( cstr, 4 );
-	}
-
-	for( size_t i = 0; i < MAX_PLAYERS; ++i )
-	{
-		sendto( i, hash );
-	}
-
+	_text = text;
 	_lshv |= _plyrc;
-
-	auto start = std::chrono::steady_clock::now();
-	std::chrono::duration<float> elapsed;
-
-	while( _lshv ^ 15 )
-	{
-		elapsed = std::chrono::steady_clock::now() - start;
-
-		if( elapsed.count() >= 1.f )
-		{
-			return false;
-		}
-	}
-
-	std::string msg{ "m:" };
-	msg += text;
-
-	for( size_t i = 0; i < MAX_PLAYERS; ++i )
-	{
-		sendto( i, msg );
-	}
-
-	_lshv = 0;
 
 	return true;
 }
@@ -249,10 +153,8 @@ bool ClientsHandler::recvfrom( std::string* msg )
 	sockaddr addr{};
 	std::string text;
 
-	//std::cout << "msg otw?" << std::endl;
 	if( !_ws.sockrecv( addr, text ) )
 	{
-		//std::cout << "msg failed?" << std::endl;
 		for( size_t i = 0; i < MAX_PLAYERS; ++i )
 		{
 			if( !std::memcmp( &addr, &_addrs[ i ], sizeof( addr ) ) )
@@ -261,13 +163,11 @@ bool ClientsHandler::recvfrom( std::string* msg )
 
 				remove <<= i;
 
-				//std::cout << "current: " << _playerid
-				//	<< "\nremoving: " << i << " with " << (int)remove
-				//	<< "\nand with " << (int)(~remove) << std::endl;
-
-				_cnnct &= ~remove;
-
-				//std::cout << "connect now " << (int)_cnnct << std::endl;
+				if( _cnnct & remove )
+				{
+					_plyrc = 0;
+					return false;
+				}
 
 				break;
 			}
@@ -276,7 +176,6 @@ bool ClientsHandler::recvfrom( std::string* msg )
 		return false;
 	}
 
-	//std::cout << "msg recv" << std::endl;
 	if( msg )
 	{
 		*msg = text;
@@ -286,8 +185,6 @@ bool ClientsHandler::recvfrom( std::string* msg )
 	{
 		if( !std::memcmp( &addr, &_addrs[ i ], sizeof( addr ) ) )
 		{
-			//std::cout << "player " << i << " sent" << std::endl;
-
 			if( !std::memcmp( "h:", text.c_str(), 2 ) )
 			{
 				std::memcpy( &_hashvalue[ i ], &text[ 2 ], 4 );
@@ -299,7 +196,6 @@ bool ClientsHandler::recvfrom( std::string* msg )
 				_lshv |= add;
 
 				break;
-				//return true;
 			}
 			else if( !std::memcmp( "m:", text.c_str(), 2 ) )
 			{
@@ -367,11 +263,9 @@ bool ClientsHandler::waitrecv( ClientsHandler* handler )
 	std::string text;
 	while( true )
 	{
-		//std::cout << "waitrecv\n";
 		handler->recvfrom( &text );
 		if( text.length() )
 		{
-			//std::cout << "received\n" << text << std::endl;
 			if( text[ 0 ] == '1' )
 			{
 				handler->_plyrc = 0;
@@ -380,8 +274,6 @@ bool ClientsHandler::waitrecv( ClientsHandler* handler )
 			else if( !std::strncmp( "connect", text.c_str(), 7 ) )
 			{
 				char c = text[ 7 ];
-
-				//std::cout << "incoming playerid: " << (int)c << std::endl;
 
 				if( c >= 0 && c < MAX_PLAYERS )
 				{
@@ -405,4 +297,69 @@ bool ClientsHandler::waitrecv( ClientsHandler* handler )
 	}
 
 	return false;
+}
+
+bool ClientsHandler::waitsend( ClientsHandler* handler )
+{
+	while( true )
+	{
+		if( !handler->_plyrc )
+		{
+			return false;
+		}
+
+		if( !( handler->_lshv & handler->_plyrc ) )
+		{
+			continue;
+		}
+
+		const std::string text{ handler->_text };
+		std::string hash{ "h:" };
+
+		{
+			char cstr[ 4 ]{ 0 };
+			unsigned uh = hashfn( text );
+
+			std::memcpy( cstr, &uh, 4 );
+
+			hash += std::string( cstr, 4 );
+		}
+
+		while( true )
+		{
+			if( !handler->_plyrc )
+			{
+				return false;
+			}
+
+			handler->sendcmd( hash );
+
+			auto start = std::chrono::steady_clock::now();
+			std::chrono::duration<float> elapsed;
+
+			while( handler->_lshv ^ 15 )
+			{
+				elapsed = std::chrono::steady_clock::now() - start;
+
+				if( elapsed.count() >= 1.f )
+				{
+					break;
+				}
+			}
+
+			if( handler->_lshv == 15 )
+			{
+				break;
+			}
+		}
+
+		std::string msg{ "m:" };
+		msg += text;
+
+		handler->sendcmd( msg );
+
+		handler->_lshv = 0;
+
+		return true;
+	}
 }

@@ -25,8 +25,8 @@ game::packetdata::packetdata(std::string string):
 {
 	if (!_gamekill)
 	{
-		_scoreupdate = string[0] == '1';
-		_ballupdate = string[0] == '1';
+		_scoreupdate = string[ 1 ] == '1';
+		_ballupdate = string[ 2 ] == '1';
 		string.erase(0, 3); // gamekill, scoreupdate, and ballupdate remove
 
 		for (int i = 0; i < 2; ++i)
@@ -101,7 +101,6 @@ void game::init()
 		"First to 3 wins\nGood luck!" });
 
 	updateplayers( true, true );
-	//updateplayers_gamekill();
 }
 bool game::update(const bool& getinput)
 {
@@ -206,7 +205,11 @@ void game::updateplayers(const bool& scoreupdate, const bool& ballupdate)
 {
 	packetdata currpacket(scoreupdate, ballupdate,
 		_players[0]._paddle.getpos(), _ballobj.getpos(), _ballobj.getvel());
-	_clienthandler.sendmove(currpacket);
+	
+	if( !_clienthandler.sendmove( currpacket ) )
+	{
+		updateplayers_gamekill();
+	}
 }
 
 bool game::processinput()

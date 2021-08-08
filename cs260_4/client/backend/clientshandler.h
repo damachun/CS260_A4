@@ -59,6 +59,7 @@ public:
 	bool ended();
 
 	static bool waitrecv( ClientsHandler* handler );
+	static bool waitsend( ClientsHandler* handler );
 
 private:
 	int _playerid = NO_PLAYER_ID;
@@ -75,6 +76,8 @@ private:
 	unsigned char _updated = 0;
 	unsigned char _plyrc = 0;
 
+	std::string _text;
+
 	void acknowledge( size_t i );
 	void sendto( size_t index, const std::string& text );
 
@@ -88,4 +91,11 @@ private:
 		decltype( disconnect )
 	> chrecv
 	{ 1, ClientsHandler::waitrecv, disconnect };
+	
+	taskQueue<
+		ClientsHandler*,
+		decltype( waitsend ),
+		decltype( disconnect )
+	> chsend
+	{ 1, ClientsHandler::waitsend, disconnect };
 };
