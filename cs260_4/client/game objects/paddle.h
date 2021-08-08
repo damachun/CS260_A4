@@ -25,9 +25,19 @@ class paddle
 	glm::vec2 _pos, _nrm, _size;
 public:
 	paddle(const glm::vec2& = NULLVEC2,
-		const glm::vec2 & = glm::vec2(1.0f, 0.0f),
-		const glm::vec2& = glm::vec2(0.5f, 0.1f));
+		const glm::vec2& = glm::vec2(1.0f, 0.0f),
+		const glm::vec2& = glm::vec2(0.25f, 0.1f));
 	~paddle() = default;
+
+	const glm::vec2& getpos() const
+	{
+		return _pos;
+	}
+
+	void setpos(const glm::vec2& pos)
+	{
+		_pos = pos;
+	}
 
 	glm::mat4 getmodelmat() const;
 

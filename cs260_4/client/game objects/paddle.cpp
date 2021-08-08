@@ -25,8 +25,8 @@ paddle::paddle(const glm::vec2& pos, const glm::vec2& nrm,
 glm::mat4 paddle::getmodelmat() const
 {
 	glm::mat4 trans{}, scale{};
-	glm::translate(trans, glm::vec3(_pos.x, _pos.y, 0.0f));
-	glm::scale(scale, glm::vec3(_size.x, _size.y, 0.0f));
+	trans = glm::translate(trans, glm::vec3(_pos.x, _pos.y, 0.0f));
+	scale = glm::scale(scale, glm::vec3(_size.x, _size.y, 0.0f));
 	return trans * scale;
 }
 

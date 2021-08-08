@@ -1,8 +1,1 @@
-﻿  paddle.cpp
-C:\Users\climj\Desktop\DP-CS260\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(45,28): warning C4201: nonstandard extension used: nameless struct/union
-C:\Users\climj\Desktop\DP-CS260\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(125): message : see reference to class template instantiation 'glm::qua<T,Q>' being compiled
-  main.cpp
-C:\Users\climj\Desktop\DP-CS260\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(45,28): warning C4201: nonstandard extension used: nameless struct/union
-C:\Users\climj\Desktop\DP-CS260\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(125): message : see reference to class template instantiation 'glm::qua<T,Q>' being compiled
-  Generating Code...
-  client.vcxproj -> C:\Users\climj\Desktop\DP-CS260\CS260_A4\cs260_4\x64\Debug\client.exe
+﻿

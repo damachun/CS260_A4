@@ -32,11 +32,41 @@ public:
 		_pos{ pos }, _vel{ vel }, _speed{ speed }, _size(size) {}
 	~ball() = default;
 
+	const glm::vec2& getpos() const
+	{
+		return _pos;
+	}
+
+	const glm::vec2& getvel() const
+	{
+		return _vel;
+	}
+
+	void setpos(const glm::vec2& pos)
+	{
+		_pos = pos;
+	}
+
+	void setvel(const glm::vec2& vel)
+	{
+		_vel = vel;
+	}
+
+	void move(const float& dt)
+	{
+		_pos += _vel * dt;
+	}
+
+	bool checkfront(const glm::vec2& pos, const glm::vec2& nrm)
+	{
+		return glm::dot((_pos - pos), nrm) > 0.0f;
+	}
+
 	glm::mat4 getmodelmat() const
 	{
 		glm::mat4 trans{}, scale{};
-		glm::translate(trans, glm::vec3(_pos.x, _pos.y, 0.0f));
-		glm::scale(scale, glm::vec3(_size, _size, 0.0f));
+		trans = glm::translate(trans, glm::vec3(_pos.x, _pos.y, 0.0f));
+		scale = glm::scale(scale, glm::vec3(_size, _size, 0.0f));
 		return trans * scale;
 	}
 

@@ -30,7 +30,7 @@ renderer::renderer(window& winref):
 	_vmat{ glGetUniformLocation(_shader._prog, "view") },
 	_pmat{ glGetUniformLocation(_shader._prog, "projection") },
 	_bgcol{ 0.0f, 0.0f, 0.0f }, _objcol{ 1.0f, 1.0f, 1.0f },
-	_viewmat{ glm::lookAt(glm::vec3(0.0f, 0.0f, -3.0f), NULLVEC3, glm::vec3(0.0f, -1.0f, 0.0f)) },
+	_viewmat{ /*glm::lookAt(glm::vec3(0.0f, 0.0f, -3.0f), NULLVEC3, glm::vec3(0.0f, -1.0f, 0.0f))*/  1.0f },
 	_projmat{ glm::ortho(-_width / 2, _width / 2, -_height / 2, _height / 2) },
 	_circlemodelmat{ }, _modelmats{ }
 {
