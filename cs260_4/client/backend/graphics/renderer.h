@@ -40,13 +40,14 @@ class renderer
 	};
 	typedef GLint SHADERLOC;
 
+	const glm::vec3        _bgcol, _objcol;
+
 	window&   _winref;
 	int       _width, _height;
 	shader    _shader;
 	data      _rectdata, _circledata;
 	SHADERLOC _mmat, _vmat, _pmat;
 
-	const glm::vec3        _bgcol, _objcol;
 	glm::mat4              _viewmat, _projmat, _circlemodelmat;
 	std::vector<glm::mat4> _modelmats;
 

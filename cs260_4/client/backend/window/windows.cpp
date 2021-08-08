@@ -144,7 +144,7 @@ HWND MakeWindow(char* title, int x, int y, int width, int height, BYTE type, DWO
 	}
 
 	hWnd = CreateWindow(strtowstr("CS260 A4").c_str(), strtowstr(title).c_str(),
-		WS_OVERLAPPEDWINDOW | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
+		WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
 		x, y, width, height, NULL, NULL, hInstance, NULL);
 
 	if (hWnd == NULL)
@@ -185,7 +185,7 @@ HWND MakeWindow(char* title, int x, int y, int width, int height, BYTE type, DWO
 
 window::window()
 {
-	_hWnd = MakeWindow(const_cast<char*>("CS260 A4"), 0, 0, 800, 600, 0, 0);
+	_hWnd = MakeWindow(const_cast<char*>("CS260 A4"), 0, 0, 800, 800, 0, 0);
 	if (_hWnd == NULL) exit(1);
 
 	// Create the OpenGL context

@@ -24,7 +24,7 @@ paddle::paddle(const glm::vec2& pos, const glm::vec2& nrm,
 
 glm::mat4 paddle::getmodelmat() const
 {
-	glm::mat4 trans{}, scale{};
+	glm::mat4 trans{ 1.0f }, scale{ 1.0f };
 	trans = glm::translate(trans, glm::vec3(_pos.x, _pos.y, 0.0f));
 	scale = glm::scale(scale, glm::vec3(_size.x, _size.y, 0.0f));
 	return trans * scale;
@@ -32,7 +32,7 @@ glm::mat4 paddle::getmodelmat() const
 
 bool paddle::collideball(ball& ballobj)
 {
-	if (glm::dot(ballobj._vel, _nrm) < 0.0f) return false;
+	if (glm::dot(ballobj._vel, _nrm) > 0.0f) return false;
 
 	glm::vec2 aabb_halfex(_size.x / 2.0f, _size.y / 2.0f);
 
@@ -44,7 +44,7 @@ bool paddle::collideball(ball& ballobj)
 	if (glm::length(difference) <= ballobj._size) // colliding rn
 	{
 		ballobj._pos -= glm::normalize(difference) * ballobj._size;
-		ballobj._vel = glm::normalize(glm::reflect(ballobj._vel, _nrm)) * ballobj._speed;
+		ballobj._vel = glm::normalize(glm::reflect(ballobj._vel, _nrm));
 		return true;
 	}
 	else
@@ -73,7 +73,7 @@ bool paddle::collideball(ball& ballobj)
 				if (0.0f <= interTime && interTime <= 1.0f) /* will intersect in this frame */
 				{
 					ballobj._pos += ballobj._vel * interTime;
-					ballobj._vel = glm::normalize(glm::reflect(ballobj._vel, _nrm)) * ballobj._speed;
+					ballobj._vel = glm::normalize(glm::reflect(ballobj._vel, _nrm));
 
 					return true;
 				}

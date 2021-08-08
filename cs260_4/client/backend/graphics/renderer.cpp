@@ -22,6 +22,7 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 const unsigned int CIRCLEVTXCOUNT = 15;
 
 renderer::renderer(window& winref):
+	_bgcol{ 0.0f, 0.0f, 0.0f }, _objcol{ 1.0f, 1.0f, 1.0f },
 	_winref{ winref },
 	_width{ winref.getwindowwidth() }, _height{ winref.getwindowheight() },
 	_shader{ loadShader("Dependencies/shaders/shader.vs", "Dependencies/shaders/shader.fs") },
@@ -29,9 +30,9 @@ renderer::renderer(window& winref):
 	_mmat{ glGetUniformLocation(_shader._prog, "model") },
 	_vmat{ glGetUniformLocation(_shader._prog, "view") },
 	_pmat{ glGetUniformLocation(_shader._prog, "projection") },
-	_bgcol{ 0.0f, 0.0f, 0.0f }, _objcol{ 1.0f, 1.0f, 1.0f },
-	_viewmat{ /*glm::lookAt(glm::vec3(0.0f, 0.0f, -3.0f), NULLVEC3, glm::vec3(0.0f, -1.0f, 0.0f))*/  1.0f },
-	_projmat{ glm::ortho(-_width / 2, _width / 2, -_height / 2, _height / 2) },
+	_viewmat{ /*glm::scale(glm::mat4(1.0f), glm::vec3(CAST_FLOAT(_width)/2.0f, CAST_FLOAT(_height)/2.0f, 0.0f))*/ 1.0f },
+	_projmat{ glm::ortho(-CAST_FLOAT(_width) / 2.0f, CAST_FLOAT(_width) / 2.0f,
+		-CAST_FLOAT(_height) / 2.0f, CAST_FLOAT(_height) / 2.0f) },
 	_circlemodelmat{ }, _modelmats{ }
 {
 	glUseProgram(_shader._prog);
@@ -63,7 +64,10 @@ void renderer::update()
 	{
 		_width = _winref.getwindowwidth();
 		_height = _winref.getwindowheight();
-		_projmat = glm::ortho(-_width / 2, _width / 2, -_height / 2, _height / 2);
+		
+		_projmat = glm::ortho(-CAST_FLOAT(_width) / 2.0f, CAST_FLOAT(_width) / 2.0f,
+			-CAST_FLOAT(_height) / 2.0f, CAST_FLOAT(_height) / 2.0f);
+		//_projmat = glm::scale(glm::mat4(1.0f), glm::vec3(2.0f, 2.0f, 0.0f));
 		glUniformMatrix4fv(_pmat, 1, GL_FALSE, glm::value_ptr(_projmat));
 	}
 
@@ -74,13 +78,13 @@ void renderer::update()
 	for (const glm::mat4& model: _modelmats)
 	{
 		glUniformMatrix4fv(_mmat, 1, GL_FALSE, glm::value_ptr(model));
-		glDrawArrays(GL_TRIANGLES, 0, 4);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
 	glBindVertexArray(0);
 
 	glBindVertexArray(_circledata._vao);
 	glUniformMatrix4fv(_mmat, 1, GL_FALSE, glm::value_ptr(_circlemodelmat));
-	glDrawArrays(GL_TRIANGLES, 0, CIRCLEVTXCOUNT);
+	glDrawArrays(GL_TRIANGLES, 0, CIRCLEVTXCOUNT * 3);
 	glBindVertexArray(0);
 
 	glUseProgram(0);
