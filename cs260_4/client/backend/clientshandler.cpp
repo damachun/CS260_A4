@@ -55,15 +55,20 @@ ClientsHandler::ClientsHandler(int argc, char** argv)
 
 			_addrs[i] = *info.getaddr();
 
-			if (_playerid == NO_PLAYER_ID &&
-				tempsock.trybind(info) &&
-				_ws.trybind(myinfo))
+			if( _playerid == NO_PLAYER_ID &&
+				tempsock.trybind( info ) )
 			{
-				_playerid = i;
+				tempsock.exit();
+				if( _ws.trybind( myinfo ) )
+				{
+					_playerid = i;
 
-				_plyrc = 1;
-				_plyrc <<= i;
-				_cnnct |= _plyrc;
+					std::cout << "player id: " << _playerid << std::endl;
+
+					_plyrc = 1;
+					_plyrc <<= i;
+					_cnnct |= _plyrc;
+				}
 			}
 		}
 		catch (...)
