@@ -19,7 +19,9 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 #include "clientshandler.h"
 #include "wrappers/wrapAddrinfo.h"
 #include <chrono>
+#include <ctime>
 #include <thread>
+#include "hash.h"
 
 bool ClientsHandler::init( int argc, char** argv )
 {
@@ -58,11 +60,11 @@ bool ClientsHandler::init( int argc, char** argv )
 			{
 				_playerid = i;
 
-				unsigned char add = 1;
+				_plyrc = 1;
 
-				add <<= i;
+				_plyrc <<= i;
 
-				ack |= add;
+				_cnnct |= _plyrc;
 			}
 		}
 		catch( ... )
@@ -78,7 +80,7 @@ bool ClientsHandler::init( int argc, char** argv )
 
 bool ClientsHandler::startable()
 {
-	if( ack ^ 15 )
+	if( _cnnct ^ 15 )
 	{
 		return true;
 	}
@@ -90,7 +92,7 @@ bool ClientsHandler::startable()
 
 	std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
 
-	return ack ^ 15;
+	return _cnnct ^ 15;
 }
 
 void ClientsHandler::acknowledge( size_t i )
@@ -99,7 +101,7 @@ void ClientsHandler::acknowledge( size_t i )
 
 	add <<= i;
 
-	ack |= add;
+	_cnnct |= add;
 }
 
 void ClientsHandler::sendto( size_t index, const std::string& text )
@@ -122,14 +124,50 @@ void ClientsHandler::sendcmd( const std::string& text )
 	}
 }
 
-void ClientsHandler::sendmove( const std::string& text )
+bool ClientsHandler::sendmove( const std::string& text )
 {
 	std::string hash{ "h:" };
 
+	{
+		char cstr[ 4 ]{ 0 };
+		unsigned uh = hashfn( text );
+
+		std::memcpy( cstr, &uh, 4 );
+
+		hash += std::string( cstr, 4 );
+	}
+
 	for( size_t i = 0; i < MAX_PLAYERS; ++i )
 	{
-		sendto( i, text );
+		sendto( i, hash );
 	}
+
+	_lshv |= _plyrc;
+
+	auto start = std::chrono::steady_clock::now();
+	std::chrono::duration<float> elapsed;
+
+	while( _lshv ^ 15 )
+	{
+		elapsed = std::chrono::steady_clock::now() - start;
+
+		if( elapsed.count() >= 1.f )
+		{
+			return false;
+		}
+	}
+
+	std::string msg{ "m:" };
+	msg += text;
+
+	for( size_t i = 0; i < MAX_PLAYERS; ++i )
+	{
+		sendto( i, msg );
+	}
+
+	_lshv = 0;
+
+	return true;
 }
 
 bool ClientsHandler::recvfrom( std::string* msg )
@@ -147,7 +185,7 @@ bool ClientsHandler::recvfrom( std::string* msg )
 
 				remove <<= i;
 
-				ack ^= remove;
+				_cnnct ^= remove;
 
 				break;
 			}
@@ -165,11 +203,25 @@ bool ClientsHandler::recvfrom( std::string* msg )
 	{
 		if( !std::memcmp( &addr, &_addrs[ i ], sizeof( addr ) ) )
 		{
-			_inputs[ i ] = text;
-
 			std::cout << "player " << i << " sent" << std::endl;
 
-			return true;
+			if( !std::memcmp( "h:", text.c_str(), 2 ) )
+			{
+				std::memcpy( &_hashvalue[ i ], &text[ 2 ], 4 );
+
+				return true;
+			}
+			else if( !std::memcmp( "m:", text.c_str(), 2 ) )
+			{
+				text.erase( 0, 2 );
+
+				if( _hashvalue[ i ] ^ hashfn( text ) )
+				{
+					_inputs[ i ] = text;
+
+					return true;
+				}
+			}
 		}
 	}
 

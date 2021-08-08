@@ -68,14 +68,14 @@ void wrapSOCKET::exit()
 bool wrapSOCKET::sockrecv(sockaddr& _addr, std::string& string)
 {
 	char buffer[256] = { '\0' };
-	static const size_t buffermax = 255;
+	const int buffermax = 255;
 
 	//SecureZeroMemory(&_addr, sizeof(_addr));
-	static int addresssize = sizeof(_addr);
+	int addresssize = sizeof(_addr);
 
 	while (true)
 	{
-		int bytesrecv = recvfrom(_socket, buffer, static_cast<int>(buffermax), 0,
+		int bytesrecv = recvfrom(_socket, buffer, buffermax, 0,
 			&_addr, &addresssize);
 		switch (bytesrecv)
 		{

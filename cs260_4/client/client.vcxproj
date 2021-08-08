@@ -160,6 +160,7 @@
     <ClInclude Include="backend\clientshandler.h" />
     <ClInclude Include="backend\globalhelpers.h" />
     <ClInclude Include="backend\graphics\renderer.h" />
+    <ClInclude Include="backend\hash.h" />
     <ClInclude Include="backend\producerconsumer.h" />
     <ClInclude Include="backend\producerconsumer.hpp" />
     <ClInclude Include="backend\window\windows.h" />

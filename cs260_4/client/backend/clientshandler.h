@@ -49,7 +49,7 @@ public:
 	bool startable();
 
 	void sendcmd( const std::string& text );
-	void sendmove( const std::string& text );
+	bool sendmove( const std::string& text );
 	bool recvfrom( std::string* msg = nullptr );
 	std::string retrieve( size_t index );
 
@@ -63,10 +63,13 @@ private:
 	sockaddr _addrs[ MAX_PLAYERS ]{};
 
 	std::string _inputs[ MAX_PLAYERS ]{};
+	unsigned _hashvalue[ MAX_PLAYERS ]{};
 
 	wrapSOCKET _ws;
 
-	unsigned char ack = 0;
+	unsigned char _cnnct = 0;
+	unsigned char _lshv = 0;
+	unsigned char _plyrc = 0;
 
 	void acknowledge( size_t i );
 	void sendto( size_t index, const std::string& text );
