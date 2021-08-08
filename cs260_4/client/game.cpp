@@ -17,6 +17,7 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 *******************************************************************/
 
 #include "game.h"
+#include <Windows.h>
 
 game::packetdata::packetdata(std::string string):
 	_gamekill{ string[0] == '1' }, 
@@ -199,7 +200,19 @@ bool game::processinput()
 	// IF EITHER LEFT OR RIGHT IS PRESSED
 	// RETURN TRUE
 
-	return false;
+	bool triggered = false;
+
+	if( GetKeyState( VK_LCONTROL ) & 0x8000 )
+	{
+		triggered = true;
+	}
+
+	if( GetKeyState( VK_RCONTROL ) & 0x8000 )
+	{
+		triggered = true;
+	}
+
+	return triggered;
 }
 bool game::balledge()
 {
