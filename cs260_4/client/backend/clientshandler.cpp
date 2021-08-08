@@ -259,7 +259,8 @@ bool ClientsHandler::recvfrom( std::string* msg )
 			{
 				std::memcpy( &_hashvalue[ i ], &text[ 2 ], 4 );
 
-				return true;
+				break;
+				//return true;
 			}
 			else if( !std::memcmp( "m:", text.c_str(), 2 ) )
 			{
