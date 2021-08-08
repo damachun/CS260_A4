@@ -201,15 +201,18 @@ bool game::processinput()
 	// RETURN TRUE
 
 	bool triggered = false;
+	const glm::vec2 step{ 0.05f, 0.0f };
 
 	if( GetKeyState( VK_LCONTROL ) & 0x8000 )
 	{
 		triggered = true;
+		_players[0]._paddle.movepos(-step);
 	}
 
 	if( GetKeyState( VK_RCONTROL ) & 0x8000 )
 	{
 		triggered = true;
+		_players[0]._paddle.movepos(step);
 	}
 
 	return triggered;
