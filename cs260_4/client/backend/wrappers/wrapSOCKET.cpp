@@ -26,6 +26,8 @@ bool wrapSOCKET::trybind(const wrapAddrinfo& addinf)
 					  addinf._hints.ai_socktype,
 					  addinf._hints.ai_protocol );
 
+	addinf.printout();
+
 	if( _socket == INVALID_SOCKET )
 	{
 		std::cerr << "wrapSOCKET() (listener) failed\n\tsocket() failed" << std::endl;

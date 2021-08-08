@@ -26,11 +26,13 @@ class wrapAddrinfo
 private:
 	addrinfo    _hints;      // desc addr info for use with tcp/ip
 	addrinfo* _rspinfo;      // response info about the host
+	std::string _hoststring; // service name/ port number as a string
 	std::string _portstring; // service name/ port number as a string
 
 public:
 	wrapAddrinfo(const char* host, const char* port) :
 		_hints{ }, _rspinfo{ nullptr },
+		_hoststring{ host?host:"" },
 		_portstring{ port }
 	{
 		SecureZeroMemory( &_hints, sizeof( _hints ) );
@@ -52,6 +54,12 @@ public:
 	sockaddr* getaddr()
 	{
 		return _rspinfo->ai_addr;
+	}
+
+	void printout() const
+	{
+		std::cout << "host: " << _hoststring
+			<< "\nport: " << _portstring << std::endl;
 	}
 
 	// for listenersocket
