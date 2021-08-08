@@ -94,7 +94,7 @@ void game::init()
 	_ballobj.setvel(glm::vec2(ballvel.x, ballvel.y));
 
 	print({ "You control the paddle at the bottom\n",
-		"Left and Right arrow keys to move", // ????????????
+		"Left and Right arrow keys to move\n", // ????????????
 		"First to 3 wins\nGood luck!" });
 }
 void game::update()
