@@ -135,7 +135,7 @@ ClientsHandler::ClientsHandler(int argc, char** argv)
 
 bool ClientsHandler::startable()
 {
-	if( _cnnct ^ 15 )
+	if( _cnnct == 15 )
 	{
 		return true;
 	}
@@ -147,11 +147,13 @@ bool ClientsHandler::startable()
 
 	std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
 
-	return _cnnct ^ 15;
+	return _cnnct == 15;
 }
 
 void ClientsHandler::acknowledge( size_t i )
 {
+	std::cout << "ack came in: " << i << std::endl;
+
 	unsigned char add = 1;
 
 	add <<= i;
@@ -230,8 +232,10 @@ bool ClientsHandler::recvfrom( std::string* msg )
 	sockaddr addr{};
 	std::string text;
 
+	std::cout << "msg otw?" << std::endl;
 	if( !_ws.sockrecv( addr, text ) )
 	{
+		std::cout << "msg failed?" << std::endl;
 		for( size_t i = 0; i < MAX_PLAYERS; ++i )
 		{
 			if( !std::memcmp( &addr, &_addrs[ i ], sizeof( addr ) ) )
@@ -240,7 +244,7 @@ bool ClientsHandler::recvfrom( std::string* msg )
 
 				remove <<= i;
 
-				_cnnct ^= remove;
+				_cnnct &= ( remove ^ 0 );
 
 				break;
 			}
@@ -249,6 +253,7 @@ bool ClientsHandler::recvfrom( std::string* msg )
 		return false;
 	}
 
+	std::cout << "msg recv" << std::endl;
 	if( msg )
 	{
 		*msg = text;
@@ -311,8 +316,11 @@ bool ClientsHandler::waitrecv( ClientsHandler* handler )
 	std::string text;
 	while( true )
 	{
-		if( handler->recvfrom( &text ) )
+		std::cout << "waitrecv\n";
+		handler->recvfrom( &text );
+		if( text.length() )
 		{
+			std::cout << "received\n" << text << std::endl;
 			if( text[ 0 ] == '1' )
 			{
 				break;

@@ -89,11 +89,13 @@ bool wrapSOCKET::sockrecv(sockaddr& _addr, std::string& string)
 			//DBGPRINT({ "wrapSOCKET::sockrecv() succeeded\n\trecvfrom() done" });
 			return false;
 		default:
+			DBGPRINT( { "wrapSOCKET::sockrecv() suceed\n\tclient send something" } );
 			buffer[ bytesrecv ] = '\0';
 
 			string = std::string( buffer, bytesrecv );
 
-			break;
+			//break;
+			return true;
 		}
 	}
 
