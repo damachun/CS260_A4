@@ -21,7 +21,7 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 assignment::assignment(int argc, char** argv):
 	_window{}, _renderer{ _window }, _console{ },
 	_wsa{ }, _clienthandler{ argc, argv },
-	_mutexupdategamedata{ }, _updategamedata{ false }, _game{ _clienthandler },
+	_updategamedata{ false }, _game{ _clienthandler },
 	_threads{ }
 {
 	_threads.push_back(std::thread(&assignment::thread_gameloop, this));
@@ -49,7 +49,6 @@ void assignment::thread_gameloop()
 		_window.update();
 
 		{
-			RAIILOCK lockgamedata(_mutexupdategamedata);
 			gameend = _game.update(_updategamedata);
 			_updategamedata = false;
 		}
@@ -67,7 +66,6 @@ void assignment::thread_sockrecvfrom()
 {
 	while (run)
 	{
-		RAIILOCK lockgamedata(_mutexupdategamedata);
 		_updategamedata = _clienthandler.recvfrom();
 	}
 }

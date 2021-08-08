@@ -40,7 +40,6 @@ class assignment
 	ClientsHandler _clienthandler;
 
 	// game system
-	std::mutex _mutexupdategamedata;
 	bool       _updategamedata;
 	game       _game;
 

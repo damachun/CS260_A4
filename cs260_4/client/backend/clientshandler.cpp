@@ -68,6 +68,8 @@ ClientsHandler::ClientsHandler(int argc, char** argv)
 					_plyrc = 1;
 					_plyrc <<= i;
 					_cnnct |= _plyrc;
+
+					//std::cout << "initial connect " << (int)_cnnct << std::endl;
 				}
 			}
 		}
@@ -152,7 +154,7 @@ bool ClientsHandler::startable()
 
 void ClientsHandler::acknowledge( size_t i )
 {
-	std::cout << "ack came in: " << i << std::endl;
+	//std::cout << "ack came in: " << i << std::endl;
 
 	unsigned char add = 1;
 
@@ -232,10 +234,10 @@ bool ClientsHandler::recvfrom( std::string* msg )
 	sockaddr addr{};
 	std::string text;
 
-	std::cout << "msg otw?" << std::endl;
+	//std::cout << "msg otw?" << std::endl;
 	if( !_ws.sockrecv( addr, text ) )
 	{
-		std::cout << "msg failed?" << std::endl;
+		//std::cout << "msg failed?" << std::endl;
 		for( size_t i = 0; i < MAX_PLAYERS; ++i )
 		{
 			if( !std::memcmp( &addr, &_addrs[ i ], sizeof( addr ) ) )
@@ -244,7 +246,13 @@ bool ClientsHandler::recvfrom( std::string* msg )
 
 				remove <<= i;
 
-				_cnnct &= ( remove ^ 0 );
+				//std::cout << "current: " << _playerid
+				//	<< "\nremoving: " << i << " with " << (int)remove
+				//	<< "\nand with " << (int)(~remove) << std::endl;
+
+				_cnnct &= ~remove;
+
+				//std::cout << "connect now " << (int)_cnnct << std::endl;
 
 				break;
 			}
@@ -253,7 +261,7 @@ bool ClientsHandler::recvfrom( std::string* msg )
 		return false;
 	}
 
-	std::cout << "msg recv" << std::endl;
+	//std::cout << "msg recv" << std::endl;
 	if( msg )
 	{
 		*msg = text;
@@ -263,14 +271,14 @@ bool ClientsHandler::recvfrom( std::string* msg )
 	{
 		if( !std::memcmp( &addr, &_addrs[ i ], sizeof( addr ) ) )
 		{
-			std::cout << "player " << i << " sent" << std::endl;
+			//std::cout << "player " << i << " sent" << std::endl;
 
 			if( !std::memcmp( "h:", text.c_str(), 2 ) )
 			{
 				std::memcpy( &_hashvalue[ i ], &text[ 2 ], 4 );
 
 				break;
-				//return true;
+				return true;
 			}
 			else if( !std::memcmp( "m:", text.c_str(), 2 ) )
 			{
@@ -316,18 +324,20 @@ bool ClientsHandler::waitrecv( ClientsHandler* handler )
 	std::string text;
 	while( true )
 	{
-		std::cout << "waitrecv\n";
+		//std::cout << "waitrecv\n";
 		handler->recvfrom( &text );
 		if( text.length() )
 		{
-			std::cout << "received\n" << text << std::endl;
+			//std::cout << "received\n" << text << std::endl;
 			if( text[ 0 ] == '1' )
 			{
 				break;
 			}
 			else if( !std::strncmp( "connect", text.c_str(), 7 ) )
 			{
-				char c = text[ 7 ] - '0';
+				char c = text[ 7 ];
+
+				//std::cout << "incoming playerid: " << (int)c << std::endl;
 
 				if( c >= 0 && c < MAX_PLAYERS )
 				{
@@ -340,7 +350,7 @@ bool ClientsHandler::waitrecv( ClientsHandler* handler )
 			}
 			else if( !std::strncmp( "ack", text.c_str(), 3 ) )
 			{
-				char c = text[ 3 ] - '0';
+				char c = text[ 3 ];
 
 				if( c >= 0 && c < MAX_PLAYERS)
 				{
