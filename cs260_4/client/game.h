@@ -94,6 +94,8 @@ class game
 	ball   _ballobj;
 	player _players[4];
 
+	bool _gamedone;
+
 	// EVERYONE CHECK THEIR OWN
 	bool processinput();
 	bool balledge();
@@ -103,9 +105,11 @@ public:
 	~game() = default;
 
 	void init();
-	void update();
+	bool update(const bool&);
 	void end();
 
 	void updateplayers_gamekill();
 	void updateplayers(const bool& , const bool&);
+
+	void render(renderer&);
 };

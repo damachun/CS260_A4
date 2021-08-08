@@ -18,65 +18,115 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 
 #include "clientshandler.h"
 #include "wrappers/wrapAddrinfo.h"
+#include "globalhelpers.h"
 #include <chrono>
 #include <ctime>
 #include <thread>
 #include "hash.h"
 
-bool ClientsHandler::init( int argc, char** argv )
+ClientsHandler::ClientsHandler(int argc, char** argv)
 {
-	if( _playerid != NO_PLAYER_ID || argc <= MAX_PLAYERS )
+	if (_playerid != NO_PLAYER_ID || argc <= MAX_PLAYERS)
 	{
-		return false;
+		THROW("ClientsHandler() failed\n\tToo little players or Client is messed up");
 	}
 
 	wrapSOCKET tempsock;
 
-	for( int i = 0; i < MAX_PLAYERS; ++i )
+	for (int i = 0; i < MAX_PLAYERS; ++i)
 	{
-		std::string hostport = argv[ i + 1 ];
-		auto found = hostport.find( ':' );
+		std::string hostport = argv[i + 1];
+		auto found = hostport.find(':');
 
-		if( found == hostport.npos )
+		if (found == hostport.npos)
 		{
-			return false;
+			THROW("ClientsHandler() failed\n\tNO HOSTPORT");
 		}
 
 		try
 		{
 			wrapAddrinfo info(
-				hostport.substr( 0, found ).c_str(),
-				hostport.substr( found + 1 ).c_str() );
+				hostport.substr(0, found).c_str(),
+				hostport.substr(found + 1).c_str());
 
 			wrapAddrinfo myinfo(
 				nullptr,
-				hostport.substr( found + 1 ).c_str() );
+				hostport.substr(found + 1).c_str());
 
-			_addrs[ i ] = *info.getaddr();
+			_addrs[i] = *info.getaddr();
 
-			if( _playerid == NO_PLAYER_ID &&
-				tempsock.trybind( info ) &&
-				_ws.trybind( myinfo ) )
+			if (_playerid == NO_PLAYER_ID &&
+				tempsock.trybind(info) &&
+				_ws.trybind(myinfo))
 			{
 				_playerid = i;
 
 				_plyrc = 1;
-
 				_plyrc <<= i;
-
 				_cnnct |= _plyrc;
 			}
 		}
-		catch( ... )
+		catch (...)
 		{
-			return false;
+			THROW("ClientsHandler() failed\n\tINIT FAILED");
 		}
 	}
 
-	chrecv.produce( this );
-
-	return true;
+	chrecv.produce(this);
 }
+
+//bool ClientsHandler::init( int argc, char** argv )
+//{
+//	if( _playerid != NO_PLAYER_ID || argc <= MAX_PLAYERS )
+//	{
+//		return false;
+//	}
+//
+//	wrapSOCKET tempsock;
+//
+//	for( int i = 0; i < MAX_PLAYERS; ++i )
+//	{
+//		std::string hostport = argv[ i + 1 ];
+//		auto found = hostport.find( ':' );
+//
+//		if( found == hostport.npos )
+//		{
+//			return false;
+//		}
+//
+//		try
+//		{
+//			wrapAddrinfo info(
+//				hostport.substr( 0, found ).c_str(),
+//				hostport.substr( found + 1 ).c_str() );
+//
+//			wrapAddrinfo myinfo(
+//				nullptr,
+//				hostport.substr( found + 1 ).c_str() );
+//
+//			_addrs[ i ] = *info.getaddr();
+//
+//			if( _playerid == NO_PLAYER_ID &&
+//				tempsock.trybind( info ) &&
+//				_ws.trybind( myinfo ) )
+//			{
+//				_playerid = i;
+//
+//				_plyrc = 1;
+//				_plyrc <<= i;
+//				_cnnct |= _plyrc;
+//			}
+//		}
+//		catch( ... )
+//		{
+//			return false;
+//		}
+//	}
+//
+//	chrecv.produce( this );
+//
+//	return true;
+//}
 
 bool ClientsHandler::startable()
 {

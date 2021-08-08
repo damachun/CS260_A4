@@ -64,7 +64,6 @@ public:
 #define CAST_UINT16(x) static_cast<uint16_t>(x)
 #define CAST_FLOAT(x) static_cast<float>(x)
 
-//[TODO JH: CONVERT TO TEMPLATE]
 bool localstoi(uint16_t&, const std::string&);
 bool localstoi(int&, const std::string&);
 bool localstof(float&, const std::string&);
