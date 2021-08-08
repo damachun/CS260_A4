@@ -18,9 +18,20 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 
 #pragma once
 
+// NOTE
+// I MESSED UP
+// WILL FIX IT LATER BUT FOR NOW RIGHT
+// THERE IS A BOOLEAN CALLED "run"
+// DO NOT EDIT IT
+// JUST USE IT TO CHECK IF THE GAME IS ACTIVE
+// IT IS FROM WINDOWS.H
+// D O  N O T  E D I T  I T
+// THANK YOU HAVE A NICE DAY
+
 #include "backend/baseincludes.h"
 
 #include "backend/producerconsumer.h"
+#include "backend/clientshandler.h"
 
 #include "backend/wrappers/wrapWSADATA.h"
 #include "backend/wrappers/wrapAddrinfo.h"

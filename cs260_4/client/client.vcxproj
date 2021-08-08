@@ -169,6 +169,7 @@
     <ClInclude Include="backend\console.h" />
     <ClInclude Include="game objects\ball.h" />
     <ClInclude Include="game objects\paddle.h" />
+    <ClInclude Include="game.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="backend\clientshandler.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="backend\window\windows.cpp" />
     <ClCompile Include="backend\wrappers\wrapSOCKET.cpp" />
     <ClCompile Include="game objects\paddle.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

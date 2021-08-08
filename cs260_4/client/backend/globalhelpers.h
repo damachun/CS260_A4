@@ -23,10 +23,15 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 #include <sstream>   // stringstream
 #include <vector>    // vector
 #include <exception> // exception
+#include <chrono>    // now
 
 using RAIILOCK = std::lock_guard<std::mutex>;
 using NONRAIILOCK = std::unique_lock<std::mutex>;
 using STRINGCONTAINER = std::vector<std::string>;
+
+using CLOCKTIME = std::chrono::steady_clock::time_point;
+CLOCKTIME gettime();
+float     deltatime(const CLOCKTIME&, const CLOCKTIME&);
 
 void print(const STRINGCONTAINER&);
 
@@ -38,6 +43,7 @@ void print(const STRINGCONTAINER&);
 
 size_t stringcontsize(const STRINGCONTAINER&);
 STRINGCONTAINER stringtostringcont(std::string, const std::string& delim = "\n");
+std::string stringconttostring(const STRINGCONTAINER&);
 
 std::string loadfile(const std::string&);
 void printfile(const std::string& title, const std::string& text);

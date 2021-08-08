@@ -19,6 +19,15 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 #include "globalhelpers.h"
 #include <fstream>
 
+CLOCKTIME gettime()
+{
+	return std::chrono::high_resolution_clock::now();
+}
+float deltatime(const CLOCKTIME& start, const CLOCKTIME& end)
+{
+	return std::chrono::duration<float, std::milli>(end - start).count();
+}
+
 static std::mutex _mutexprint; // couts are overlapping
 
 void print(const STRINGCONTAINER& toprint)
@@ -57,6 +66,14 @@ STRINGCONTAINER stringtostringcont(std::string str, const std::string& delim)
 		// I STILL HAVE NO CLUE WHEN POS WILL NOT BE FOUND GG
 	}
 	return strcont;
+}
+
+std::string stringconttostring(const STRINGCONTAINER& cont)
+{
+	std::string str;
+	for (const std::string& cstr : cont)
+		str += cstr;
+	return str;
 }
 
 std::string loadfile(const std::string& path)
