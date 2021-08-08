@@ -18,23 +18,13 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 
 #pragma once
 #include "wrappers/wrapSOCKET.h"
+#include "producerconsumer.h"
 
 #define MAX_PLAYERS 4
 #define NO_PLAYER_ID -1
 
 class ClientsHandler
 {
-private:
-	int _playerid = NO_PLAYER_ID;
-
-	sockaddr _addrs[ MAX_PLAYERS ]{};
-
-	std::string _inputs[ MAX_PLAYERS ]{};
-
-	wrapSOCKET _ws;
-
-	char ack = 0;
-
 public:
 	ClientsHandler( ClientsHandler& ) = delete;
 	ClientsHandler( ClientsHandler&& ) = delete;
@@ -52,11 +42,36 @@ public:
 	}
 
 	bool startable();
+	void acknowledge( size_t i );
 
 	void sendto( size_t index, const std::string& text );
 	void sendall( const std::string& text );
-	bool recvfrom();
+	bool recvfrom( std::string* msg = nullptr );
 	std::string retrieve( size_t index );
 
 	STRINGCONTAINER retrieveall();
+
+	static bool waitrecv( ClientsHandler* handler );
+
+private:
+	int _playerid = NO_PLAYER_ID;
+
+	sockaddr _addrs[ MAX_PLAYERS ]{};
+
+	std::string _inputs[ MAX_PLAYERS ]{};
+
+	wrapSOCKET _ws;
+
+	unsigned char ack = 0;
+
+	static void disconnect()
+	{
+	}
+	
+	taskQueue<
+		ClientsHandler*,
+		decltype( waitrecv ),
+		decltype( disconnect )
+	> chrecv
+	{ 1, ClientsHandler::waitrecv, disconnect };
 };
