@@ -101,7 +101,7 @@ void renderer::addModelMat(const glm::mat4& model)
 {
 	_modelmats.push_back(model);
 }
-void renderer::editircleMat(const glm::mat4& circlemat)
+void renderer::editCircleMat(const glm::mat4& circlemat)
 {
 	_circlemodelmat = circlemat;
 }

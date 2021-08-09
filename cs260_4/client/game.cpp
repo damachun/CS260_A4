@@ -250,7 +250,8 @@ void game::render(renderer& render)
 	if (_gamestate == gamestate::WAITING) return;
 
 	render.clearModels();
-	render.editircleMat(_ballobj.getmodelmat());
-	for (const player& curr : _players)
+	render.editCircleMat(_ballobj.getmodelmat()); // create the ball
+
+	for (const player& curr : _players) // create the player paddles
 		render.addModelMat(curr._paddle.getmodelmat());
 }

@@ -64,5 +64,5 @@ public:
 
 	void clearModels();
 	void addModelMat(const glm::mat4&);
-	void editircleMat(const glm::mat4&);
+	void editCircleMat(const glm::mat4&);
 };
