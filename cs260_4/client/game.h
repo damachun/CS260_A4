@@ -4,8 +4,9 @@
 \file game.h
 \author Chloe Lim Jia-Han, 440003018
 		Edwin Khoo Bing Shen, 390001918
+		Javier Foo, 440002318
 
-\par j.lim\@digipen.edu	b.kohh\@digipen.edu
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu javier.foo\@digipen.edu
 \date 18/7/2021
 \brief 	game system class declaration
 
@@ -63,26 +64,29 @@ class game
 		{
 			if (!_gamekill)
 			{
+				// prepare the packet according to the state of the game
 				if (_ballupdate)
 				{
 					STRINGCONTAINER wballupdate = {
-						"0", _scoreupdate ? "1" : "0", "1",
-						std::to_string(_playerp.x), " ", std::to_string(_playerp.y), " ",
-						std::to_string(_ballp.x),   " ", std::to_string(_ballp.y),   " ",
-						std::to_string(_ballv.x),   " ", std::to_string(_ballv.y),   " ",
+						"0", _scoreupdate ? "1" : "0", "1", // game end, score update, ball update
+						std::to_string(_playerp.x), " ", std::to_string(_playerp.y), " ", // player position
+						std::to_string(_ballp.x),   " ", std::to_string(_ballp.y),   " ", // ball position
+						std::to_string(_ballv.x),   " ", std::to_string(_ballv.y),   " ", // ball velocity
 					};
+
 					return stringconttostring(wballupdate);
 				}
 				else
 				{
 					STRINGCONTAINER woballupdate = {
-						"0", _scoreupdate ? "1" : "0", "0",
-						std::to_string(_playerp.x), " ", std::to_string(_playerp.y), " "
+						"0", _scoreupdate ? "1" : "0", "0", // game end, score update, ball update
+						std::to_string(_playerp.x), " ", std::to_string(_playerp.y), " " // ball doesn't need to be updated, so just send the player position
 					};
+
 					return stringconttostring(woballupdate);
 				}
 			}
-			else return std::string("1");
+			else return std::string("1"); // game has ended
 		}
 	};
 
@@ -96,7 +100,7 @@ class game
 
 	bool _gamedone;
 
-	// EVERYONE CHECK THEIR OWN
+	// these are handled by the individual clients
 	bool processinput();
 	bool balledge();
 

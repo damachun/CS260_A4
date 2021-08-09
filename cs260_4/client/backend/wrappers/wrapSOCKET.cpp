@@ -4,8 +4,9 @@
 \file wrapSOCKET.cpp
 \author Chloe Lim Jia-Han, 440003018
 		Edwin Khoo Bing Shen, 390001918
-
-\par j.lim\@digipen.edu	b.kohh\@digipen.edu
+		Javier Foo, 440002318
+		 
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu javier.foo\@digipen.edu
 \date 18/7/2021
 \brief 	wrapSOCKET class definitions
 

@@ -4,8 +4,9 @@
 \file baseincludes.h
 \author Chloe Lim Jia-Han, 440003018
 		Edwin Khoo Bing Shen, 390001918
+		Javier Foo, 440002318
 
-\par j.lim\@digipen.edu	b.kohh\@digipen.edu
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu javier.foo\@digipen.edu
 \date 18/7/2021
 \brief 	main includes
 

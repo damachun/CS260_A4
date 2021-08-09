@@ -4,9 +4,10 @@
 \file globalhelpers.cpp
 \author Chloe Lim Jia-Han, 440003018
 		Edwin Khoo Bing Shen, 390001918
+		Javier Foo, 440002318
 
-\par j.lim\@digipen.edu	b.kohh\@digipen.edu
-\date 20/6/2021
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu javier.foo\@digipen.edu
+\date 18/7/2021
 \brief 	the global print (and STRINGCONTAINER helper) function definition(s)
 
 Copyright (C) 2021 DigiPen Institute of Technology.
@@ -63,7 +64,6 @@ STRINGCONTAINER stringtostringcont(std::string str, const std::string& delim)
 			strcont.push_back(str);
 			break;
 		}
-		// I STILL HAVE NO CLUE WHEN POS WILL NOT BE FOUND GG
 	}
 	return strcont;
 }

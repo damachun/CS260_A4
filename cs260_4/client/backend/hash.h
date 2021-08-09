@@ -4,9 +4,10 @@
 \file hash.h
 \author Chloe Lim Jia-Han, 440003018
 		Edwin Khoo Bing Shen, 390001918
+		Javier Foo, 440002318
 
-\par j.lim\@digipen.edu	b.kohh\@digipen.edu
-\date 20/6/2021
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu javier.foo\@digipen.edu
+\date 18/7/2021
 \brief 	the hash function
 
 Copyright (C) 2021 DigiPen Institute of Technology.
@@ -18,6 +19,10 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 
 #pragma once
 #include <string>
+
+// we're using our own hash function instead of a library for more control
+// we only need 4 bytes, rather than the long string the library outputs
+// so doing it this way makes comparisons easier
 
 unsigned hashfn( const std::string& input )
 {

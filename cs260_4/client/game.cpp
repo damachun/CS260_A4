@@ -4,8 +4,9 @@
 \file game.cpp
 \author Chloe Lim Jia-Han, 440003018
 		Edwin Khoo Bing Shen, 390001918
+		Javier Foo, 440002318
 
-\par j.lim\@digipen.edu	b.kohh\@digipen.edu
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu javier.foo\@digipen.edu
 \date 18/7/2021
 \brief 	game system class definition
 
@@ -214,13 +215,10 @@ void game::updateplayers(const bool& scoreupdate, const bool& ballupdate)
 
 bool game::processinput()
 {
-	//[TODO EK]
-	// IF EITHER LEFT OR RIGHT IS PRESSED
-	// RETURN TRUE
-
 	bool triggered = false;
 	const glm::vec2 step{ 10.0f, 0.0f };
 
+	// move left if left ctrl, move right if right ctrl
 	if( GetKeyState( VK_LCONTROL ) & 0x8000 )
 	{
 		triggered = true;
@@ -235,8 +233,10 @@ bool game::processinput()
 
 	return triggered;
 }
-bool game::balledge()
+
+bool game::balledge() // this function checks if the ball is out of bounds
 {
+	// 
 	if (!_ballobj.checkfront({ 0.0f, -400.0f }, { 0.0f, 1.0f }))
 	{
 		_ballobj.setpos({0.0f, 0.0f});

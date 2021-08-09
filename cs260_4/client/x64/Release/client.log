@@ -1,1 +1,52 @@
-﻿
+﻿  assignment.cpp
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(45,1): warning C4201: nonstandard extension used: nameless struct/union
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(125): message : see reference to class template instantiation 'glm::qua<T,Q>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(669): message : see reference to class template instantiation 'std::chrono::duration<double,std::ratio<1,1>>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(177): message : see reference to class template instantiation 'std::chrono::duration<__int64,std::nano>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(647): message : see reference to class template instantiation 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>' being compiled
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\wrappers\wrapSOCKET.h(48,1): warning C4521: 'wrapSOCKET': multiple copy constructors specified
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\clientshandler.h(102,1): warning C4521: 'ClientsHandler': multiple copy constructors specified
+  clientshandler.cpp
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\clientshandler.h(102,1): warning C4522: 'ClientsHandler': multiple assignment operators specified
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(45,1): warning C4201: nonstandard extension used: nameless struct/union
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(125): message : see reference to class template instantiation 'glm::qua<T,Q>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(669): message : see reference to class template instantiation 'std::chrono::duration<double,std::ratio<1,1>>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(177): message : see reference to class template instantiation 'std::chrono::duration<__int64,std::nano>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(647): message : see reference to class template instantiation 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>' being compiled
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\wrappers\wrapSOCKET.h(48,1): warning C4521: 'wrapSOCKET': multiple copy constructors specified
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\clientshandler.h(102,1): warning C4521: 'ClientsHandler': multiple copy constructors specified
+  renderer.cpp
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\clientshandler.h(102,1): warning C4522: 'ClientsHandler': multiple assignment operators specified
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(45,1): warning C4201: nonstandard extension used: nameless struct/union
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(125): message : see reference to class template instantiation 'glm::qua<T,Q>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(669): message : see reference to class template instantiation 'std::chrono::duration<double,std::ratio<1,1>>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(177): message : see reference to class template instantiation 'std::chrono::duration<__int64,std::nano>' being compiled
+  paddle.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(647): message : see reference to class template instantiation 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>' being compiled
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(45,1): warning C4201: nonstandard extension used: nameless struct/union
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(125): message : see reference to class template instantiation 'glm::qua<T,Q>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(669): message : see reference to class template instantiation 'std::chrono::duration<double,std::ratio<1,1>>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(177): message : see reference to class template instantiation 'std::chrono::duration<__int64,std::nano>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(647): message : see reference to class template instantiation 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>' being compiled
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\wrappers\wrapSOCKET.h(48,1): warning C4521: 'wrapSOCKET': multiple copy constructors specified
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\clientshandler.h(102,1): warning C4521: 'ClientsHandler': multiple copy constructors specified
+  game.cpp
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\clientshandler.h(102,1): warning C4522: 'ClientsHandler': multiple assignment operators specified
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(45,1): warning C4201: nonstandard extension used: nameless struct/union
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(125): message : see reference to class template instantiation 'glm::qua<T,Q>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(669): message : see reference to class template instantiation 'std::chrono::duration<double,std::ratio<1,1>>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(177): message : see reference to class template instantiation 'std::chrono::duration<__int64,std::nano>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(647): message : see reference to class template instantiation 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>' being compiled
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\wrappers\wrapSOCKET.h(48,1): warning C4521: 'wrapSOCKET': multiple copy constructors specified
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\clientshandler.h(102,1): warning C4521: 'ClientsHandler': multiple copy constructors specified
+  main.cpp
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\clientshandler.h(102,1): warning C4522: 'ClientsHandler': multiple assignment operators specified
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(45,1): warning C4201: nonstandard extension used: nameless struct/union
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\Dependencies\glm\detail\type_quat.hpp(125): message : see reference to class template instantiation 'glm::qua<T,Q>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(669): message : see reference to class template instantiation 'std::chrono::duration<double,std::ratio<1,1>>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(177): message : see reference to class template instantiation 'std::chrono::duration<__int64,std::nano>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.23.28105\include\chrono(647): message : see reference to class template instantiation 'std::chrono::time_point<std::chrono::steady_clock,std::chrono::steady_clock::duration>' being compiled
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\wrappers\wrapSOCKET.h(48,1): warning C4521: 'wrapSOCKET': multiple copy constructors specified
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\clientshandler.h(102,1): warning C4521: 'ClientsHandler': multiple copy constructors specified
+D:\Libraries\Desktop\CS260_A4\cs260_4\client\backend\clientshandler.h(102,1): warning C4522: 'ClientsHandler': multiple assignment operators specified
+LINK : fatal error LNK1181: cannot open input file 'glew32s.lib'
