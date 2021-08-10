@@ -167,7 +167,7 @@ bool game::update(const bool& getinput)
 
 	if (!gameend)
 	{
-		bool toupdate = processinput(); // NOT IMPLEMENTED YET
+		bool toupdate = processinput();
 		if (!collision)
 			localcollision = _players[0]._paddle.collideball(_ballobj);
 

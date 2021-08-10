@@ -27,7 +27,7 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 class ClientsHandler
 {
 public:
-	ClientsHandler( ClientsHandler& ) = delete;
+	/* ClientsHandler( ClientsHandler& ) = delete;
 	ClientsHandler( ClientsHandler&& ) = delete;
 	ClientsHandler( const ClientsHandler& ) = delete;
 	ClientsHandler( const ClientsHandler&& ) = delete;
@@ -35,7 +35,7 @@ public:
 	ClientsHandler& operator=( ClientsHandler& ) = delete;
 	ClientsHandler& operator=( ClientsHandler&& ) = delete;
 	ClientsHandler& operator=( const ClientsHandler& ) = delete;
-	ClientsHandler& operator=( const ClientsHandler&& ) = delete;
+	ClientsHandler& operator=( const ClientsHandler&& ) = delete; */
 
 	ClientsHandler(int argc, char** argv);
 	~ClientsHandler() = default;

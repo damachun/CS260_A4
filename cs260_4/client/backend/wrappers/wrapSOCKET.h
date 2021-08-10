@@ -29,10 +29,10 @@ private:
 	SOCKET   _socket;  // socket to use
 public:
 	wrapSOCKET() : _socket{ INVALID_SOCKET } {};
-	wrapSOCKET( wrapSOCKET& ) = delete;
+	/* wrapSOCKET( wrapSOCKET& ) = delete;
 	wrapSOCKET( wrapSOCKET&& ) = delete;
 	wrapSOCKET( const wrapSOCKET& ) = delete;
-	wrapSOCKET( const wrapSOCKET&& ) = delete;
+	wrapSOCKET( const wrapSOCKET&& ) = delete; */
 
 	bool trybind( const wrapAddrinfo& );	// listener
 	~wrapSOCKET();
