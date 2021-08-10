@@ -190,6 +190,9 @@ bool game::update(const bool& getinput)
 			print({ "Better luck next time!" });
 
 		updateplayers_gamekill();
+
+		end();
+
 		return true;
 	}
 }

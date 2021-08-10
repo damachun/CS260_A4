@@ -43,7 +43,7 @@ bool wrapSOCKET::trybind(const wrapAddrinfo& addinf)
 
 	// set a timeout
 	struct timeval tv;
-	tv.tv_sec = 1000;
+	tv.tv_sec = 10000;
 	tv.tv_usec = 0;
 	setsockopt(_socket, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<char*>(&tv), sizeof(tv));
 
