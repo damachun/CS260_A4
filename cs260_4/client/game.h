@@ -39,9 +39,9 @@ class game
 
 	struct player
 	{
-		int       _playerid;
-		int       _score;
-		playerpos _pos;
+		int       _playerid = 0;
+		int       _score = 0;
+		playerpos _pos = playerpos::CURR;
 		paddle    _paddle;
 	};
 

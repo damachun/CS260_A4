@@ -141,8 +141,10 @@ bool game::update(const bool& getinput)
 					gameend = true;
 					_gamedone = true;
 				}
+
 				glm::vec4 pos{ currpacket._playerp.x, currpacket._playerp.y, 0.0f, 1.0f };
 				_players[ i ]._paddle.setpos( glm::vec2( rotation[ i ] * pos ) );
+
 				if( currpacket._ballupdate && !collision ) // only update ball upon first collision
 				{
 					if( currpacket._scoreupdate )
@@ -152,6 +154,7 @@ bool game::update(const bool& getinput)
 						print( { "Your current score is: ", std::to_string( _players[ 0 ]._score ) } );
 					}
 
+					// update the current game state according to the packet
 					pos = glm::vec4{ currpacket._ballp.x, currpacket._ballp.y, 0.0f, 1.0f };
 					glm::vec4 vel{ currpacket._ballv.x, currpacket._ballv.y, 0.0f, 0.0f };
 					_ballobj.setpos( glm::vec2( rotation[ i ] * pos ) );
@@ -159,6 +162,7 @@ bool game::update(const bool& getinput)
 					collision = true;
 				}
 			}
+
 			catch( ... )
 			{
 			}
