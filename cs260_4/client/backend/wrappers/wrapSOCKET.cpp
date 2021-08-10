@@ -41,10 +41,17 @@ bool wrapSOCKET::trybind(const wrapAddrinfo& addinf)
 		return false;
 	}
 
+	// set a timeout
+	struct timeval tv;
+	tv.tv_sec = 1000;
+	tv.tv_usec = 0;
+	setsockopt(_socket, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<char*>(&tv), sizeof(tv));
+
 	return true;
 }
 wrapSOCKET::~wrapSOCKET()
 {
+	DBGPRINT({ "Socket exiting..." });
 	exit();
 }
 void wrapSOCKET::exit()
@@ -70,6 +77,7 @@ bool wrapSOCKET::sockrecv(sockaddr& _addr, std::string& string)
 	{
 		int bytesrecv = recvfrom(_socket, buffer, buffermax, 0,
 			&_addr, &addresssize);
+
 		switch (bytesrecv)
 		{
 		case SOCKET_ERROR:
