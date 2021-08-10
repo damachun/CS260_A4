@@ -154,7 +154,7 @@ bool game::update(const bool& getinput)
 						print( { "Your current score is: ", std::to_string( _players[ 0 ]._score ) } );
 					}
 
-					// update the current game state according to the packet
+					// update the current game state according to the packet - we simply set the position and velocity instead of interpolate so that all clients have the exact same game state
 					pos = glm::vec4{ currpacket._ballp.x, currpacket._ballp.y, 0.0f, 1.0f };
 					glm::vec4 vel{ currpacket._ballv.x, currpacket._ballv.y, 0.0f, 0.0f };
 					_ballobj.setpos( glm::vec2( rotation[ i ] * pos ) );

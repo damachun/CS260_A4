@@ -265,6 +265,10 @@ bool ClientsHandler::waitrecv( ClientsHandler* handler )
 	while( true )
 	{
 		handler->recvfrom( &text );
+
+		if (!handler->_plyrc)
+			return false;
+
 		if( text.length() )
 		{
 			if( text[ 0 ] == '1' )
