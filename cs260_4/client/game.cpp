@@ -250,6 +250,7 @@ bool game::balledge() // this function checks if the ball is out of bounds
 		return true;
 	} */
 
+	// ball out of range
 	if (_ballobj.getpos().x < -400 || _ballobj.getpos().y < -400 || _ballobj.getpos().x > 400 || _ballobj.getpos().y > 400)
 	{
 		_ballobj.setpos({ 0.0f, 0.0f });
