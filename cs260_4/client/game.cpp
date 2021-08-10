@@ -196,6 +196,7 @@ bool game::update(const bool& getinput)
 void game::end()
 {
 	print({ "Thank you for playing, hope you had fun!" });
+	Sleep(10); // sleep for 10s so the player can read the message
 }
 
 void game::updateplayers_gamekill()

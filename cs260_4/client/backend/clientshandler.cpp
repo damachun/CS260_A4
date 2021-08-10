@@ -154,7 +154,7 @@ bool ClientsHandler::recvfrom( std::string* msg )
 	sockaddr addr{};
 	std::string text;
 
-	if( !_ws.sockrecv( addr, text ) )
+	if( !_ws.sockrecv( addr, text ) ) // if SOCKET_ERROR or no bytes received
 	{
 		for( size_t i = 0; i < MAX_PLAYERS; ++i )
 		{
