@@ -244,11 +244,18 @@ bool game::processinput()
 
 bool game::balledge() // this function checks if the ball is out of bounds
 {
-	if (!_ballobj.checkfront({ 0.0f, -400.0f }, { 0.0f, 1.0f }))
+	/* if (!_ballobj.checkfront({ 0.0f, -400.0f }, { 0.0f, 1.0f }))
 	{
 		_ballobj.setpos({0.0f, 0.0f});
 		return true;
+	} */
+
+	if (_ballobj.getpos().x < -400 || _ballobj.getpos().y < -400 || _ballobj.getpos().x > 400 || _ballobj.getpos().y > 400)
+	{
+		_ballobj.setpos({ 0.0f, 0.0f });
+		return true;
 	}
+
 	return false;
 }
 
