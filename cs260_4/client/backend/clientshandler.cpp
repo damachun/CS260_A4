@@ -56,7 +56,7 @@ ClientsHandler::ClientsHandler(int argc, char** argv)
 
 			_addrs[i] = *info.getaddr();
 
-			if( _playerid == NO_PLAYER_ID &&
+			if( _playerid == NO_PLAYER_ID && // attempt to make a connection and assign yourself a player number
 				tempsock.trybind( info ) )
 			{
 				tempsock.exit();
@@ -186,7 +186,7 @@ bool ClientsHandler::recvfrom( std::string* msg )
 	{
 		if( !std::memcmp( &addr, &_addrs[ i ], sizeof( addr ) ) )
 		{
-			if( !std::memcmp( "h:", text.c_str(), 2 ) )
+			if( !std::memcmp( "h:", text.c_str(), 2 ) ) // received a hash
 			{
 				std::memcpy( &_hashvalue[ i ], &text[ 2 ], 4 );
 
@@ -198,7 +198,7 @@ bool ClientsHandler::recvfrom( std::string* msg )
 
 				break;
 			}
-			else if( !std::memcmp( "m:", text.c_str(), 2 ) )
+			else if( !std::memcmp( "m:", text.c_str(), 2 ) ) // received a message
 			{
 				text.erase( 0, 2 );
 
