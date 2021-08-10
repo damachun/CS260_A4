@@ -3,12 +3,11 @@
 /*!
 \file shader.fs
 \author Chloe Lim Jia-Han, 440003018
-        Edwin Khoo Bing Shen, 390001918
-        Javier Foo, 440002318
+		Edwin Khoo Bing Shen, 390001918
 
-\par j.lim\@digipen.edu b.kohh\@digipen.edu javier.foo\@digipen.edu
-\date 18/7/2021
-\brief  fragment shader
+\par j.lim\@digipen.edu	b.kohh\@digipen.edu
+\date 20/6/2021
+\brief 	fragment shader
 
 Copyright (C) 2021 DigiPen Institute of Technology.
 Reproduction or disclosure of this file or its contents without the
